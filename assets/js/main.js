@@ -28,18 +28,35 @@ function loadNavbar() {
     .then(res => res.text())
     .then(data => {
       const navContainer = document.getElementById("navbar");
-      if (navContainer) {
-        navContainer.innerHTML = data;
+      if (!navContainer) return;
 
-        const toggle = document.getElementById("menu-toggle");
-        const navMenu = document.getElementById("nav-menu");
+      navContainer.innerHTML = data;
 
-        if (toggle && navMenu) {
-          toggle.addEventListener("click", function () {
-            navMenu.classList.toggle("active");
-          });
-        }
+      const toggle = document.getElementById("menu-toggle");
+      const navMenu = document.getElementById("nav-menu");
+      const closeBtn = document.getElementById("close-btn");
+      const overlay = document.getElementById("overlay");
+
+      function openMenu() {
+        navMenu.classList.add("active");
+        overlay.classList.add("active");
       }
+
+      function closeMenu() {
+        navMenu.classList.remove("active");
+        overlay.classList.remove("active");
+      }
+
+      if (toggle) toggle.addEventListener("click", openMenu);
+      if (closeBtn) closeBtn.addEventListener("click", closeMenu);
+      if (overlay) overlay.addEventListener("click", closeMenu);
+
+      // Auto close when clicking a link
+      const links = navMenu.querySelectorAll("a");
+      links.forEach(link => {
+        link.addEventListener("click", closeMenu);
+      });
+
     });
 }
 
