@@ -1,31 +1,6 @@
-.hero {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 80px;
-  text-align: center;
-}
-
-.hero-content-centered {
-  max-width: 800px;
-}
-
-/* Floating Animation */
-
-.floating {
-  animation: float 4s ease-in-out infinite;
-  margin-bottom: 30px;
-}
-
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-15px); }
-  100% { transform: translateY(0px); }
-}
-
-/* Keep rotating gradient border */
-
+/* =========================
+   GLOBAL
+========================= */
 
 body {
   margin: 0;
@@ -35,7 +10,9 @@ body {
   overflow-x: hidden;
 }
 
-/* Loader */
+/* =========================
+   LOADER
+========================= */
 
 #loader {
   position: fixed;
@@ -67,7 +44,9 @@ body.loaded #loader {
   transition: 0.5s;
 }
 
-/* Header */
+/* =========================
+   HEADER
+========================= */
 
 .top {
   position: fixed;
@@ -121,26 +100,22 @@ nav a:hover::after {
   width: 100%;
 }
 
-/* Hero Section */
+/* =========================
+   HERO SECTION (CLEAN VERSION)
+========================= */
 
 .hero {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 80px;
+  padding-top: 120px; /* space for fixed header */
+  text-align: center;
 }
 
-.hero-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1100px;
+.hero-content-centered {
+  max-width: 800px;
   width: 100%;
-}
-
-.hero-text {
-  max-width: 55%;
 }
 
 .hero-name {
@@ -149,24 +124,27 @@ nav a:hover::after {
   color: #38bdf8;
 }
 
-.hero-text h3 {
+.hero-content-centered h3 {
   font-weight: 400;
   color: #94a3b8;
 }
 
-.hero-text p {
+.hero-content-centered p {
   margin-top: 20px;
   line-height: 1.6;
   color: #cbd5e1;
 }
 
-/* Profile Photo */
+/* =========================
+   PROFILE PHOTO
+========================= */
 
 .photo-wrapper {
   padding: 6px;
   border-radius: 50%;
   background: linear-gradient(135deg, #38bdf8, #6366f1);
   display: inline-block;
+  margin-bottom: 30px;
 }
 
 .profile-photo {
@@ -177,23 +155,29 @@ nav a:hover::after {
   display: block;
 }
 
-@keyframes rotateBorder {
-  to { transform: rotate(360deg); }
+/* Floating animation only */
+
+.floating {
+  animation: float 4s ease-in-out infinite;
 }
 
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
+}
 
-/* Responsive */
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media(max-width: 900px) {
-  .hero-content {
-    flex-direction: column;
-    text-align: center;
+  .hero-name {
+    font-size: 36px;
   }
-  .hero-text {
-    max-width: 100%;
-  }
+
   .profile-photo {
-    width: 220px;
-    margin-top: 40px;
+    width: 200px;
+    height: 200px;
   }
 }
