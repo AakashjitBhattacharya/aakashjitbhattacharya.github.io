@@ -5,7 +5,7 @@
             "authors": "Aakashjit Bhattacharya et al.",
             "venue": "N/A",
             "year": 2025,
-            "type": "Conference",
+            "type": "Journal",
             "citations": 0,
             "link": "https://doi.org/10.36227/techrxiv.175372984.47734429/v1"
         },
@@ -14,7 +14,7 @@
             "authors": "Aakashjit Bhattacharya et al.",
             "venue": "Proceedings of the IEEE International Conference on VLSI Design",
             "year": 2025,
-            "type": "Journal",
+            "type": "Conference",
             "citations": 0,
             "link": "https://doi.org/10.1109/VLSID64188.2025.00014"
         },
@@ -41,7 +41,7 @@
             "authors": "Aakashjit Bhattacharya et al.",
             "venue": "Lecture Notes in Networks and Systems",
             "year": 2021,
-            "type": "Book Chapter",
+            "type": "Conference",
             "citations": 0,
             "link": "#"
         }
