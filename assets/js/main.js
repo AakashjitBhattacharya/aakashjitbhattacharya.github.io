@@ -13,6 +13,14 @@ fetch("assets/components/footer.html")
     document.getElementById("current-year").textContent =
       new Date().getFullYear();
   });
+// Load shared loader
+fetch("assets/components/loader.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("loader-container").innerHTML = data;
+
+    startLoader();  // start animation after injection
+  });
 
 // Typing Animation
 const texts = [
