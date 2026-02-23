@@ -22,18 +22,19 @@ document.addEventListener("DOMContentLoaded", function () {
 /* =========================
    NAVBAR & FOOTER
 ========================= */
+
 function loadNavbar() {
   fetch("assets/components/navbar.html")
     .then(res => res.text())
-    .then(data => 
-       {
+    .then(data => {
 
       const navContainer = document.getElementById("navbar");
       if (!navContainer) return;
 
       navContainer.innerHTML = data;
 
-          const navPhoto = document.getElementById("nav-photo");
+      // Hide navbar photo on homepage
+      const navPhoto = document.getElementById("nav-photo");
       if (
         window.location.pathname.endsWith("index.html") ||
         window.location.pathname === "/" ||
@@ -66,7 +67,6 @@ function loadNavbar() {
       }
 
       if (toggle) toggle.addEventListener("click", toggleMenu);
-
       if (overlay) overlay.addEventListener("click", closeMenu);
 
       const links = navMenu.querySelectorAll("a");
@@ -94,7 +94,7 @@ function loadFooter() {
 
 
 /* =========================
-   SHOW LOADER (NO REDIRECT)
+   SHOW LOADER
 ========================= */
 
 function showLoader() {
@@ -168,7 +168,7 @@ function startLoader() {
 
 
 /* =========================
-   INFINITE TYPING ANIMATION
+   DOMAIN TYPING (if used elsewhere)
 ========================= */
 
 const texts = [
@@ -186,11 +186,7 @@ let isDeleting = false;
 function typeEffect() {
 
   const typingElement = document.getElementById("typing");
-
-  if (!typingElement) {
-    setTimeout(typeEffect, 500);
-    return;
-  }
+  if (!typingElement) return; // stop if not present
 
   const currentText = texts[textIndex];
 
@@ -218,3 +214,29 @@ function typeEffect() {
 }
 
 typeEffect();
+
+
+/* =========================
+   HERO QUOTE TYPING
+========================= */
+
+const quoteText = "I build distributed systems that cannot afford to be late.";
+
+let quoteIndex = 0;
+
+function typeQuote() {
+
+  const element = document.getElementById("typing-quote");
+  if (!element) return;
+
+  element.textContent =
+    quoteText.substring(0, quoteIndex + 1);
+
+  quoteIndex++;
+
+  if (quoteIndex < quoteText.length) {
+    setTimeout(typeQuote, 60);
+  }
+}
+
+typeQuote();
