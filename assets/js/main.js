@@ -72,60 +72,35 @@ function startLoader() {
   const percentElement = document.getElementById("load-percent");
   const statusText = document.getElementById("status-text");
 
-  const layers = {
-    iot: document.querySelector(".iot"),
-    fog: document.querySelector(".fog"),
-    edge: document.querySelector(".edge"),
-    mec: document.querySelector(".mec"),
-    cloud: document.querySelector(".cloud")
-  };
-
-  const connections = document.querySelectorAll(".connection");
+  const cloud = document.querySelector(".cloud-node");
+  const mecStations = document.querySelectorAll(".mec-station");
 
   const interval = setInterval(() => {
 
     percent++;
+    if (percentElement) percentElement.textContent = percent;
 
-    if (percentElement)
-      percentElement.textContent = percent;
-
-    if (percent === 10 && layers.iot) {
-      layers.iot.classList.add("active");
-      statusText.textContent = "IoT Devices Activated";
+    if (percent === 20) {
+      statusText.textContent = "Activating MEC Base Stations...";
+      mecStations.forEach(station => station.classList.add("active"));
     }
 
-    if (percent === 25 && layers.fog) {
-      layers.fog.classList.add("active");
-      connections[2]?.classList.add("active");
-      connections[3]?.classList.add("active");
-      statusText.textContent = "Fog Layer Online";
+    if (percent === 60) {
+      statusText.textContent = "Establishing MEC–Cloud Communication...";
     }
 
-    if (percent === 45 && layers.edge) {
-      layers.edge.classList.add("active");
-      connections[0]?.classList.add("active");
-      statusText.textContent = "Edge Nodes Deployed";
-    }
-
-    if (percent === 65 && layers.mec) {
-      layers.mec.classList.add("active");
-      connections[1]?.classList.add("active");
-      statusText.textContent = "MEC Platform Initializing";
-    }
-
-    if (percent === 85 && layers.cloud) {
-      layers.cloud.classList.add("active");
-      statusText.textContent = "Cloud Infrastructure Scaling";
+    if (percent === 85) {
+      statusText.textContent = "Scaling Cloud Core...";
+      if (cloud) cloud.classList.add("active");
     }
 
     if (percent >= 100) {
       clearInterval(interval);
-
       statusText.textContent = "Federated MEC System Ready";
 
       setTimeout(() => {
         document.body.classList.add("loaded");
-      }, 900);
+      }, 1000);
     }
 
   }, 20);
