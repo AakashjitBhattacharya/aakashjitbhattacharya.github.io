@@ -1,62 +1,75 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Aakashjit Bhattacharya | Research Scholar</title>
-  <style>
-    body {font-family: Arial, sans-serif; margin:0; padding:0;}
-    header {background:#004080; color:#fff; padding:40px 20px; text-align:center;}
-    header h1 {margin:0; font-size:2.5em;}
-    header p {margin:5px 0 0;}
-    section {padding:40px 20px; max-width:800px; margin:auto;}
-    h2 {border-bottom:2px solid #004080; padding-bottom:5px;}
-    a {color:#004080; text-decoration:none;}
-    footer {background:#f0f0f0; padding:20px; text-align:center;}
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aakashjit Bhattacharya — Researcher</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
+  <header class="hero">
+    <div class="container">
+      <img id="profile-photo" alt="Aakashjit Bhattacharya" src="assets/img/profile.jpg" />
+      <h1>Aakashjit Bhattacharya</h1>
+      <p class="subtitle">Institute Research Scholar — Indian Institute of Technology Kharagpur</p>
+      <p class="lead">Research: Edge / Multi-Access Edge Computing, Real-time IoT, Federated MEC & 5G/6G.</p>
+      <nav class="nav">
+        <a href="#about">About</a>
+        <a href="#research">Research</a>
+        <a href="#publications">Publications</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-<header>
-  <h1>Aakashjit Bhattacharya</h1>
-  <p>Research Scholar • Indian Institute of Technology Kharagpur</p>
-  <p><a href="https://www.linkedin.com/in/aakashjit-bhattacharya-35b405133/" target="_blank">LinkedIn</a> • <a href="https://scholar.google.com/citations?user=BLMncXIAAAAJ" target="_blank">Google Scholar</a></p>
-</header>
+  <main class="container">
+    <section id="about">
+      <h2>About</h2>
+      <p id="about-text">
+        <!-- Basic about text is editable directly. -->
+        Hi — I'm an Institute Research Scholar at IIT Kharagpur working on real-time resource allocation for MEC and IoT systems.
+      </p>
+      <ul class="profiles">
+        <li><a id="link-linkedin" href="#" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a id="link-gscholar" href="#" target="_blank" rel="noopener">Google Scholar</a></li>
+        <li><a id="link-github" href="#" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a id="link-orcid" href="#" target="_blank" rel="noopener">ORCID</a></li>
+        <li><a id="link-researchgate" href="#" target="_blank" rel="noopener">ResearchGate</a></li>
+      </ul>
+    </section>
 
-<section>
-  <h2>About Me</h2>
-  <p>I am currently working on real‑time IoT, edge & dew computing, mobile crowd sensing and fog‑based architectures. With 7+ years of leadership in IEEE IIT Kharagpur (past Chair, Student Branch; IEEE CS Ambassador & R10 Fellow), I blend academic rigor with community impact :contentReference[oaicite:2]{index=2}.</p>
-</section>
+    <section id="research">
+      <h2>Research Interests</h2>
+      <p>Edge computing, Multi-Access Edge, real-time scheduling, federated MEC, IoT in agriculture, drone-based NB-IoT systems.</p>
+    </section>
 
-<section>
-  <h2>Research & Publications</h2>
-  <ul>
-    <li><strong>SigSense:</strong> Mobile crowdsensing‑based geospatial signal monitoring using MR games (Wireless Pers Commun, 2022) :contentReference[oaicite:3]{index=3}</li>
-    <li>53+ citations in: real‑time IoT, edge, fog & dew computing :contentReference[oaicite:4]{index=4}</li>
-  </ul>
-</section>
+    <section id="publications">
+      <h2>Publications & Citations <span id="total-citations">—</span></h2>
+      <div id="pub-list">Loading publications…</div>
+      <p class="note">Publications are updated via GitHub Actions from Google Scholar (server-side) and saved to <code>/data/citations.json</code>.</p>
+    </section>
 
-<section>
-  <h2>Leadership & Awards</h2>
-  <ul>
-    <li>Immediate Past Chair, IEEE Student Branch, IIT Kharagpur (secured USD 400 grant from IEEE R10) :contentReference[oaicite:5]{index=5}</li>
-    <li>IEEE CS Global Student Ambassador & Fellow (2022‑2024) :contentReference[oaicite:6]{index=6}</li>
-    <li>TEDx Speaker, Vice‑Chair IEEE CS SB IITKgp, Google Developer Expert in ML :contentReference[oaicite:7]{index=7}</li>
-  </ul>
-</section>
+    <section id="projects">
+      <h2>Selected Projects</h2>
+      <ul>
+        <li>MERGERS — Multi-Access Edge Resource Governance (example paper) — see Publications.</li>
+        <li>AgriEdge — Edge Intelligent NB-IoT for drone-based precision farming.</li>
+      </ul>
+    </section>
 
-<section>
-  <h2>Education</h2>
-  <p><strong>M.Tech / Ph.D.</strong>, IIT Kharagpur<br><strong>B.Tech. / Institutions</strong>: Brainware University, MAKAUT</p>
-</section>
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>Email: <a href="mailto:aakashjit.iitkgp@gmail.com">aakashjit.iitkgp@gmail.com</a></p>
+    </section>
+  </main>
 
-<section>
-  <h2>Contact</h2>
-  <p>Email: <a href="mailto:your.email@domain.com">your.email@domain.com</a></p>
-</section>
+  <footer>
+    <div class="container">
+      <small>© <span id="year"></span> Aakashjit Bhattacharya — <a href="https://aakashjit-bhattacharya.github.io">aakashjit-bhattacharya.github.io</a></small>
+    </div>
+  </footer>
 
-<footer>
-  <p>© 2025 Aakashjit Bhattacharya. Built with ❤️ and forward‑thinking.</p>
-</footer>
+  <script src="assets/js/main.js"></script>
 </body>
 </html>
