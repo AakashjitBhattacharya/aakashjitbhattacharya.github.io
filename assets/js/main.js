@@ -4,10 +4,15 @@ fetch("assets/components/navbar.html")
   .then(data => {
     document.getElementById("navbar").innerHTML = data;
   });
-// Loader
-window.addEventListener("load", function () {
-  document.body.classList.add("loaded");
-});
+
+// Load shared footer
+fetch("assets/components/footer.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+    document.getElementById("current-year").textContent =
+      new Date().getFullYear();
+  });
 
 // Typing Animation
 const texts = [
