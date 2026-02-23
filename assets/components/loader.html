@@ -1,25 +1,26 @@
 <div id="loader">
-  <div class="loader-content">
+  <div class="loader-scene">
 
-    <div class="system-graph">
-
-      <div class="layer iot inactive">IoT</div>
-      <div class="layer fog inactive">Fog</div>
-      <div class="layer edge inactive">Edge</div>
-      <div class="layer mec inactive">MEC</div>
-      <div class="layer cloud inactive">Cloud</div>
-
-      <div class="connection c1"></div>
-      <div class="connection c2"></div>
-      <div class="connection c3"></div>
-      <div class="connection c4"></div>
-
-      <div class="packet p1"></div>
-      <div class="packet p2"></div>
+    <!-- Cloud -->
+    <div class="cloud-layer">
+      <div class="cloud-node">Cloud Core</div>
     </div>
 
-    <div class="boot-text" id="status-text">
-      Initializing Distributed Architecture...
+    <!-- MEC Base Stations -->
+    <div class="mec-layer">
+      <div class="mec-station mec1">MEC BS 1</div>
+      <div class="mec-station mec2">MEC BS 2</div>
+    </div>
+
+    <!-- Vehicles & Drones -->
+    <div class="device-layer">
+      <div class="vehicle">🚗</div>
+      <div class="drone">🚁</div>
+      <div class="mobile-bs">📡</div>
+    </div>
+
+    <div class="status-text" id="status-text">
+      Deploying Mobile Edge Infrastructure...
     </div>
 
     <div class="percentage">
