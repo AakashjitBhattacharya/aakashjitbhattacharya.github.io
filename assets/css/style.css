@@ -1,3 +1,44 @@
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 80px;
+  text-align: center;
+}
+
+.hero-content-centered {
+  max-width: 800px;
+}
+
+/* Floating Animation */
+
+.floating {
+  animation: float 4s ease-in-out infinite;
+  margin-bottom: 30px;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Keep rotating gradient border */
+
+.photo-wrapper {
+  padding: 6px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #38bdf8, #6366f1, #ec4899);
+  display: inline-block;
+}
+
+
+.profile-photo {
+  width: 260px;
+  border-radius: 50%;
+  display: block;
+}
 body {
   margin: 0;
   font-family: 'Segoe UI', Roboto, sans-serif;
