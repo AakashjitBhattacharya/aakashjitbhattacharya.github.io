@@ -24,7 +24,7 @@ body {
 /* Main layout */
 main {
   flex: 1;
-  padding-top: 110px;
+  padding-top: 120px; /* ensures content always below navbar */
 }
 
 /* Container */
@@ -101,7 +101,6 @@ nav a:hover::after {
   align-items: center;
   justify-content: center;
   text-align: center;
-  transform: translateY(-40px);
 }
 
 .hero-content-centered {
@@ -320,10 +319,7 @@ nav a:hover::after {
   .container {
     padding: 0 15px;
   }
-
-  .hero {
-    transform: translateY(0);
-  }
+ 
 
   .nav-container {
     flex-direction: column;
