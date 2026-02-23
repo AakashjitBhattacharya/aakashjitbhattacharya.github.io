@@ -61,12 +61,17 @@ fetch('data/publications.json')
         div.style.marginTop = "15px";
 
         div.innerHTML = `
-          <div class="pub-title">
-          <strong>
-            ${pub.title}
-            ${pub.is_first_author ? '<span class="first-badge">First Author</span>' : ''}
-          </strong>
-          <div class="pub-authors">
+  <div class="pub-title">
+    <strong>${pub.title}</strong>
+  </div>
+
+  ${pub.is_first_author ? `
+    <div class="pub-first-author">
+      First Author
+    </div>
+  ` : ''}
+
+  <div class="pub-authors">
     ${pub.authors}
   </div>
 
