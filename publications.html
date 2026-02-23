@@ -2,67 +2,84 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Publications | Aakashjit Bhattacharya</title>
+<title>Publications</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="assets/css/style.css">
+
+<style>
+.category-title {
+  margin-top: 40px;
+  border-bottom: 2px solid #333;
+  padding-bottom: 5px;
+}
+
+.publication-card {
+  margin: 20px 0;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #f8f8f8;
+}
+
+.authors {
+  font-style: italic;
+}
+
+.venue {
+  color: #555;
+}
+</style>
+
 </head>
 
 <body>
 
-<div id="navbar"></div>
-<div id="overlay" class="overlay"></div>
+<h1>Publications</h1>
 
-<main class="container publication-page">
-
-<section>
-  <h1 class="page-title">Publications</h1>
-
-  <div class="citation-box">
-    <span>Total Citations</span>
-    <h2 id="total-citations">Loading...</h2>
-  </div>
-
-  <div id="pub-list" class="publication-list"></div>
-
-</section>
-
-</main>
-
-<div id="footer"></div>
-<script src="assets/js/main.js"></script>
+<div id="publications-container"></div>
 
 <script>
-fetch("data/citations.json")
-  .then(res => res.json())
-  .then(data => {
-    document.getElementById("total-citations").textContent =
-      data.total_citations;
-  });
-
-fetch("data/publications.json")
-  .then(res => res.json())
+fetch('data/publications.json')
+  .then(response => response.json())
   .then(data => {
 
-    const container = document.getElementById("pub-list");
+    const container = document.getElementById("publications-container");
+    const categories = ["Journal", "Conference", "Book Chapter", "Patent"];
 
-    data.publications.sort((a,b) => b.year - a.year);
+    categories.forEach(category => {
 
-    data.publications.forEach(pub => {
+      const sectionTitle = document.createElement("h2");
+      sectionTitle.className = "category-title";
+      sectionTitle.innerText = category;
+      container.appendChild(sectionTitle);
 
-      const div = document.createElement("div");
-      div.className = "publication-card";
+      const filtered = data.publications
+          .filter(pub => pub.type === category)
+          .sort((a,b) => b.year - a.year);
 
-      div.innerHTML = `
-        <h3>${pub.title}</h3>
-        <p class="authors">${pub.authors}</p>
-        <p class="venue">${pub.venue} (${pub.year})</p>
-        <a href="${pub.link}" target="_blank">View Publication</a>
-      `;
+      if(filtered.length === 0){
+        const empty = document.createElement("p");
+        empty.innerText = "No entries yet.";
+        container.appendChild(empty);
+      }
 
-      container.appendChild(div);
+      filtered.forEach(pub => {
+
+        const div = document.createElement("div");
+        div.className = "publication-card";
+
+        div.innerHTML = `
+          <h3>${pub.title}</h3>
+          <p class="authors">${pub.authors}</p>
+          <p class="venue">${pub.venue} (${pub.year})</p>
+          <a href="${pub.link}" target="_blank">View Publication</a>
+        `;
+
+        container.appendChild(div);
+      });
+
     });
-
-  });
+  })
+  .catch(error => console.error("Error loading publications:", error));
 </script>
 
 </body>
