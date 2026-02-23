@@ -58,6 +58,16 @@ main {
   color: #38bdf8;
   margin: 0;
   font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.flag-icon {
+  width: 20px;
+  height: auto;
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 2px;
 }
 .brand {
   display: flex;
