@@ -396,10 +396,12 @@ nav a:hover::after {
 nav {
   display: flex;
   align-items: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 /* Mobile behavior */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
 
   .menu-toggle {
     display: block;
@@ -438,4 +440,12 @@ nav {
     color: #38bdf8;
   }
 
+}
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.menu-toggle {
+  margin-left: auto;
 }
