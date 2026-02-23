@@ -40,11 +40,16 @@ function loadNavbar() {
       function openMenu() {
         navMenu.classList.add("active");
         overlay.classList.add("active");
-      }
+        toggle.classList.add("active");
+        document.body.style.overflow = "hidden";
+   }
+
 
       function closeMenu() {
         navMenu.classList.remove("active");
         overlay.classList.remove("active");
+        toggle.classList.remove("active");
+        document.body.style.overflow = "";
       }
 
       if (toggle) toggle.addEventListener("click", openMenu);
