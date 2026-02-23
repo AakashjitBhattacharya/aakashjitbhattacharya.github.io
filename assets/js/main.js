@@ -168,7 +168,7 @@ function enablePageTransitions() {
 
 
 /* =========================
-   TYPING ANIMATION
+   INFINITE TYPING ANIMATION
 ========================= */
 
 const texts = [
@@ -179,28 +179,42 @@ const texts = [
   "Real-Time Scheduling"
 ];
 
-let count = 0;
-let index = 0;
+let textIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
 
-(function type() {
+function typeEffect() {
 
   const typingElement = document.getElementById("typing");
-  if (!typingElement) return;
 
-  if (count === texts.length) count = 0;
-
-  const currentText = texts[count];
-  const letter = currentText.slice(0, ++index);
-
-  typingElement.textContent = letter;
-
-  if (letter.length === currentText.length) {
-    setTimeout(() => {
-      index = 0;
-      count++;
-    }, 1500);
+  if (!typingElement) {
+    setTimeout(typeEffect, 500);
+    return;
   }
 
-  setTimeout(type, 80);
+  const currentText = texts[textIndex];
 
-})();
+  if (!isDeleting) {
+    typingElement.textContent =
+      currentText.substring(0, charIndex + 1);
+    charIndex++;
+
+    if (charIndex === currentText.length) {
+      setTimeout(() => isDeleting = true, 1500);
+    }
+
+  } else {
+    typingElement.textContent =
+      currentText.substring(0, charIndex - 1);
+    charIndex--;
+
+    if (charIndex === 0) {
+      isDeleting = false;
+      textIndex = (textIndex + 1) % texts.length;
+    }
+  }
+
+  setTimeout(typeEffect, isDeleting ? 40 : 80);
+}
+
+typeEffect();
