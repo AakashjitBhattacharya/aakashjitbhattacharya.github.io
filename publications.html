@@ -61,16 +61,25 @@ fetch('data/publications.json')
         div.style.marginTop = "15px";
 
         div.innerHTML = `
+          <div class="pub-title">
           <strong>
             ${pub.title}
             ${pub.is_first_author ? '<span class="first-badge">First Author</span>' : ''}
-        </strong>
-          <em>${pub.authors}</em><br>
-          ${pub.venue} (${pub.year})<br>
-          Citations: ${pub.citations}<br>
-          <a href="${pub.link}" target="_blank">View Publication</a>
-        `;
+          </strong>
+          <div class="pub-authors">
+    ${pub.authors}
+  </div>
 
+  <div class="pub-venue">
+    ${pub.venue} (${pub.year})
+  </div>
+
+  <div class="pub-meta">
+    Citations: ${pub.citations}
+  </div>
+
+  <a href="${pub.link}" target="_blank">View Publication</a>
+`;
         container.appendChild(div);
       });
 
