@@ -592,6 +592,13 @@ nav a:hover::after {
   margin-bottom: 4px;
 }
 
+.pub-first-author {
+  font-size: 13px;
+  font-weight: bold;
+  color: #1f4e79;
+  margin-bottom: 4px;
+}
+
 .pub-authors {
   font-style: italic;
   margin-bottom: 4px;
