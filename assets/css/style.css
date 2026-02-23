@@ -412,3 +412,55 @@ nav a:hover::after {
   }
 
 }
+/* =========================
+   CONTACT PAGE
+========================= */
+
+.contact-section {
+  padding: 140px 20px 80px;
+  display: flex;
+  justify-content: center;
+}
+
+.contact-container {
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+.contact-title {
+  font-size: clamp(28px, 4vw, 42px);
+  color: #38bdf8;
+  margin-bottom: 10px;
+}
+
+.contact-subtitle {
+  color: #94a3b8;
+  margin-bottom: 40px;
+}
+
+.contact-card {
+  background: #111827;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(56,189,248,0.2);
+}
+
+.contact-item {
+  margin-bottom: 30px;
+}
+
+.contact-item h3 {
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.contact-item a {
+  color: #38bdf8;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.contact-item a:hover {
+  text-decoration: underline;
+}
