@@ -1,3 +1,49 @@
 {
-  "publications": []
+    "publications": [
+        {
+            "title": "CAMARA and Operator Platform: A Comprehensive Survey on APIs for Federated MEC Services",
+            "authors": "Aakashjit Bhattacharya et al.",
+            "venue": "N/A",
+            "year": 2025,
+            "type": "Conference",
+            "citations": 0,
+            "link": "https://doi.org/10.36227/techrxiv.175372984.47734429/v1"
+        },
+        {
+            "title": "<i>MERGERS</i>: Multi-access Edge Resource GovErnance for Real-Time SaaS Systems",
+            "authors": "Aakashjit Bhattacharya et al.",
+            "venue": "Proceedings of the IEEE International Conference on VLSI Design",
+            "year": 2025,
+            "type": "Journal",
+            "citations": 0,
+            "link": "https://doi.org/10.1109/VLSID64188.2025.00014"
+        },
+        {
+            "title": "SigSense: Mobile Crowdsensing Based Incentive Aware Geospatial Signal Monitoring for Base Station Installation Recommendation Using Mixed Reality Game",
+            "authors": "Aakashjit Bhattacharya et al.",
+            "venue": "Wireless Personal Communications",
+            "year": 2021,
+            "type": "Journal",
+            "citations": 0,
+            "link": "https://doi.org/10.1007/s11277-021-09267-5"
+        },
+        {
+            "title": "AgriEdge: Edge Intelligent 5G Narrow Band Internet of Drone Things for Agriculture 4.0",
+            "authors": "Aakashjit Bhattacharya et al.",
+            "venue": "IoT-based Intelligent Modelling for Environmental and Ecological Engineering",
+            "year": 2021,
+            "type": "Book Chapter",
+            "citations": 0,
+            "link": "https://doi.org/10.1007/978-3-030-71172-6_3"
+        },
+        {
+            "title": "ECG Assess Heartbeat rate, Classifying using BPNN while Watching Movie and send Movie Rating through Telegram",
+            "authors": "Aakashjit Bhattacharya et al.",
+            "venue": "Lecture Notes in Networks and Systems",
+            "year": 2021,
+            "type": "Book Chapter",
+            "citations": 0,
+            "link": "#"
+        }
+    ]
 }
