@@ -15,6 +15,7 @@
 <div id="overlay" class="overlay"></div>
 
 <main>
+
 <section class="contact-section">
 
   <div class="contact-container">
@@ -27,36 +28,32 @@
 
     <div class="contact-card">
 
-      <div class="contact-item">
-        <h3>Email</h3>
-        <p>
-          <a href="mailto:aakashjit.iitkgp@gmail.com">
-            aakashjit.iitkgp@gmail.com
-          </a>
-        </p>
-      </div>
+      <form action="https://formspree.io/f/xzdakvyp" method="POST" class="contact-form">
 
-      <div class="contact-item">
-        <h3>WhatsApp</h3>
-        <p>
-          <a href="https://wa.me/917980146199" target="_blank">
-            +91-7980146199
-          </a>
-        </p>
-      </div>
+        <div class="form-group">
+          <input type="text" name="name" placeholder="Your Name" required>
+        </div>
 
-      <div class="contact-item">
-        <h3>Contact Number</h3>
-        <p>
-          +91-7980146199
-        </p>
-      </div>
+        <div class="form-group">
+          <input type="email" name="email" placeholder="Your Email" required>
+        </div>
+
+        <div class="form-group">
+          <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">
+          Send Message
+        </button>
+
+      </form>
 
     </div>
 
   </div>
 
 </section>
+
 </main>
 <div id="footer"></div>
 
