@@ -22,7 +22,6 @@ document.addEventListener("DOMContentLoaded", function () {
 /* =========================
    NAVBAR & FOOTER
 ========================= */
-
 function loadNavbar() {
   fetch("assets/components/navbar.html")
     .then(res => res.text())
@@ -37,11 +36,16 @@ function loadNavbar() {
       const navMenu = document.getElementById("nav-menu");
       const overlay = document.getElementById("overlay");
 
-      function openMenu() {
-        navMenu.classList.add("active");
-        overlay.classList.add("active");
-        toggle.classList.add("active");
-        document.body.style.overflow = "hidden";
+      function toggleMenu() {
+        navMenu.classList.toggle("active");
+        overlay.classList.toggle("active");
+        toggle.classList.toggle("active");
+
+        if (navMenu.classList.contains("active")) {
+          document.body.style.overflow = "hidden";
+        } else {
+          document.body.style.overflow = "";
+        }
       }
 
       function closeMenu() {
@@ -49,14 +53,6 @@ function loadNavbar() {
         overlay.classList.remove("active");
         toggle.classList.remove("active");
         document.body.style.overflow = "";
-      }
-
-      function toggleMenu() {
-        if (navMenu.classList.contains("active")) {
-          closeMenu();
-        } else {
-          openMenu();
-        }
       }
 
       if (toggle) toggle.addEventListener("click", toggleMenu);
@@ -70,6 +66,7 @@ function loadNavbar() {
 
     });
 }
+
 
 function loadFooter() {
   fetch("assets/components/footer.html")
