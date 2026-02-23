@@ -41,7 +41,7 @@ body {
 body.loaded #loader {
   opacity: 0;
   visibility: hidden;
-  transition: 0.5s;
+  transition: 0.5s ease;
 }
 
 /* =========================
