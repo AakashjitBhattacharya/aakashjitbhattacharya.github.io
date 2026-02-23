@@ -95,6 +95,16 @@ main {
   align-items: center;
   gap: 8px;
 }
+a {
+  color: #66ccff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
 
 .brand-link:visited,
 .brand-link:active {
@@ -588,28 +598,50 @@ nav a:hover::after {
   vertical-align: middle;
 }
 .pub-title {
+  color: #ffffff;
   font-size: 16px;
   margin-bottom: 4px;
 }
 
 .pub-first-author {
-  font-size: 13px;
+  color: #4db8ff;
   font-weight: bold;
-  color: #1f4e79;
   margin-bottom: 4px;
 }
 
 .pub-authors {
+  color: #d6e4f0;
   font-style: italic;
   margin-bottom: 4px;
 }
 
 .pub-venue {
+  color: #b8c7d9;
   margin-bottom: 4px;
 }
 
 .pub-meta {
+  color: #9fb3c8;
   font-size: 13px;
-  color: #555;
   margin-bottom: 6px;
+}
+
+.card {
+  background-color: rgba(255,255,255,0.05);
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.pub-link {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: #1f4e79;
+  color: #ffffff;
+  border-radius: 4px;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.pub-link:hover {
+  background-color: #2e6da4;
 }
