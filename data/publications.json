@@ -1,18 +1,3 @@
 {
-  "publications": [
-    {
-      "title": "MERGERS: Multi-Access Edge Resource Governance for Real-Time SaaS Systems",
-      "authors": "Aakashjit Bhattacharya, Arnab Sarkar, Ansuman Banerjee",
-      "venue": "Conference / Journal Name",
-      "year": 2024,
-      "link": "https://scholar.google.com/citations?user=BLMncXIAAAAJ"
-    },
-    {
-      "title": "AgriEdge: Edge Intelligent 5G Narrow Band Internet of Drone Things for Agriculture 4.0",
-      "authors": "Aakashjit Bhattacharya et al.",
-      "venue": "Conference / Journal Name",
-      "year": 2023,
-      "link": "https://scholar.google.com/citations?user=BLMncXIAAAAJ"
-    }
-  ]
+  "publications": []
 }
