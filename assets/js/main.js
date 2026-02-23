@@ -56,17 +56,6 @@ function loadNavbar() {
       // Close when clicking overlay
       if (overlay) overlay.addEventListener("click", closeMenu);
 
-      // Close when clicking anywhere outside nav
-      document.addEventListener("click", function(e) {
-        if (
-          navMenu.classList.contains("active") &&
-          !navMenu.contains(e.target) &&
-          !toggle.contains(e.target)
-        ) {
-          closeMenu();
-        }
-      });
-
       // Close when clicking a link
       const links = navMenu.querySelectorAll("a");
       links.forEach(link => {
