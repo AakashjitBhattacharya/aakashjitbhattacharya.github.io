@@ -88,6 +88,22 @@ main {
   width: 22px;
   border-radius: 3px;
 }
+.brand-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-link:visited,
+.brand-link:active {
+  color: inherit;
+}
+
+.brand-link:hover {
+  color: #38bdf8;
+}
 
 /* =========================
    DESKTOP NAV
