@@ -2,26 +2,68 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Publications</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Publications | Aakashjit Bhattacharya</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
 
-<div id="loader-container"></div>
 <div id="navbar"></div>
 <div id="overlay" class="overlay"></div>
-<main class="container">
+
+<main class="container publication-page">
 
 <section>
-<h2>Publications</h2>
-<p><strong>Total Citations:</strong> <span id="total-citations">Loading...</span></p>
-<div id="pub-list"></div>
+  <h1 class="page-title">Publications</h1>
+
+  <div class="citation-box">
+    <span>Total Citations</span>
+    <h2 id="total-citations">Loading...</h2>
+  </div>
+
+  <div id="pub-list" class="publication-list"></div>
+
 </section>
 
 </main>
+
 <div id="footer"></div>
 <script src="assets/js/main.js"></script>
+
+<script>
+fetch("data/citations.json")
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("total-citations").textContent =
+      data.total_citations;
+  });
+
+fetch("data/publications.json")
+  .then(res => res.json())
+  .then(data => {
+
+    const container = document.getElementById("pub-list");
+
+    data.publications.sort((a,b) => b.year - a.year);
+
+    data.publications.forEach(pub => {
+
+      const div = document.createElement("div");
+      div.className = "publication-card";
+
+      div.innerHTML = `
+        <h3>${pub.title}</h3>
+        <p class="authors">${pub.authors}</p>
+        <p class="venue">${pub.venue} (${pub.year})</p>
+        <a href="${pub.link}" target="_blank">View Publication</a>
+      `;
+
+      container.appendChild(div);
+    });
+
+  });
+</script>
+
 </body>
 </html>
