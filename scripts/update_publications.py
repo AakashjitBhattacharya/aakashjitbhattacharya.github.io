@@ -16,22 +16,26 @@ def map_type(orcid_type):
     if not orcid_type:
         return "Conference"
 
-    orcid_type = orcid_type.lower()
+    t = orcid_type.lower()
 
-    if "journal" in orcid_type:
+    # JOURNAL
+    if "journal" in t or "article" in t:
         return "Journal"
 
-    if "conference" in orcid_type:
+    # CONFERENCE
+    if "conference" in t or "proceeding" in t:
         return "Conference"
 
-    if "book" in orcid_type or "chapter" in orcid_type or "section" in orcid_type:
+    # BOOK CHAPTER
+    if "book" in t or "chapter" in t or "section" in t:
         return "Book Chapter"
 
-    if "patent" in orcid_type:
+    # PATENT
+    if "patent" in t:
         return "Patent"
 
+    # Default fallback
     return "Conference"
-
 
 def get_citation_count(title):
     try:
