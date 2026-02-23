@@ -51,20 +51,17 @@ function loadNavbar() {
         document.body.style.overflow = "";
       }
 
-      if (toggle) {
-        toggle.addEventListener("click", function(e) {
-          e.stopPropagation();
-          if (navMenu.classList.contains("active")) {
-            closeMenu();
-          } else {
-            openMenu();
-          }
-        });
+      function toggleMenu() {
+        if (navMenu.classList.contains("active")) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
       }
 
-      if (overlay) {
-        overlay.addEventListener("click", closeMenu);
-      }
+      if (toggle) toggle.addEventListener("click", toggleMenu);
+
+      if (overlay) overlay.addEventListener("click", closeMenu);
 
       const links = navMenu.querySelectorAll("a");
       links.forEach(link => {
