@@ -237,11 +237,14 @@ nav a:hover::after {
 ========================= */
 
 .hero {
-  min-height: calc(100vh - 180px); 
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+
+  /* Lift content slightly upward */
+  transform: translateY(-60px);
 }
 
 .hero-content-centered {
