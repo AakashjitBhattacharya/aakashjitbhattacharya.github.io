@@ -220,7 +220,7 @@ typeEffect();
    HERO QUOTE TYPING
 ========================= */
 
-const quoteText = "I build distributed systems that cannot afford to be late.";
+const quoteText = "I build distributed systems that cannot afford to miss deadlines.";
 
 let quoteIndex = 0;
 
