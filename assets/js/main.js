@@ -51,12 +51,21 @@ function loadNavbar() {
         document.body.style.overflow = "";
       }
 
-      if (toggle) toggle.addEventListener("click", openMenu);
+      if (toggle) {
+        toggle.addEventListener("click", function(e) {
+          e.stopPropagation();
+          if (navMenu.classList.contains("active")) {
+            closeMenu();
+          } else {
+            openMenu();
+          }
+        });
+      }
 
-      // Close when clicking overlay
-      if (overlay) overlay.addEventListener("click", closeMenu);
+      if (overlay) {
+        overlay.addEventListener("click", closeMenu);
+      }
 
-      // Close when clicking a link
       const links = navMenu.querySelectorAll("a");
       links.forEach(link => {
         link.addEventListener("click", closeMenu);
