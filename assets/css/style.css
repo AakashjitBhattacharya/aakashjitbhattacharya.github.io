@@ -261,7 +261,8 @@ nav a:hover::after {
 
 /* Drawer Mode */
 
-@media (max-width: 1150px) {
+@media (max-width: 1150px) 
+{
 
   .menu-toggle {
     display: block;
@@ -276,13 +277,17 @@ nav a:hover::after {
     background: #111827;
     flex-direction: column;
     padding-top: 120px;
-    transition: right 0.35s ease;
+    transition: right 0.45s cubic-bezier(.68,-0.55,.27,1.55);
     box-shadow: -8px 0 25px rgba(0,0,0,0.5);
     z-index: 1000;
+    border-left: 2px solid rgba(56,189,248,0.3);
+    box-shadow:
+      -8px 0 25px rgba(0,0,0,0.5),
+      -2px 0 15px rgba(56,189,248,0.4);
   }
 
   nav.active {
-    right: 0;
+    animation: drawerGlow 1.5s ease infinite alternate;
   }
 
   nav a {
@@ -291,6 +296,10 @@ nav a:hover::after {
     opacity: 0;
     transform: translateX(20px);
     animation: slideIn 0.4s forwards;
+  }
+    nav a:hover {
+    color: #38bdf8;
+    text-shadow: 0 0 8px rgba(56,189,248,0.7);
   }
 
   nav.active a:nth-child(1) { animation-delay: 0.1s; }
@@ -306,6 +315,18 @@ nav a:hover::after {
   to {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+@keyframes drawerGlow {
+  from {
+    box-shadow:
+      -8px 0 25px rgba(0,0,0,0.5),
+      -2px 0 15px rgba(56,189,248,0.4);
+  }
+  to {
+    box-shadow:
+      -8px 0 25px rgba(0,0,0,0.5),
+      -2px 0 25px rgba(56,189,248,0.8);
   }
 }
 
