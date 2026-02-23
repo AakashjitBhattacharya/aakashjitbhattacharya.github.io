@@ -151,6 +151,17 @@ def get_publications():
         if full_work.get("title") and full_work["title"].get("title"):
             title = full_work["title"]["title"].get("value", "")
         title = clean_html(title)
+        # -------- AUTHORS --------
+        authors_list = []
+
+        contributors = full_work.get("contributors", {}).get("contributor", [])
+
+        for contributor in contributors:
+            credit_name = contributor.get("credit-name")
+            if credit_name and credit_name.get("value"):
+                authors_list.append(credit_name["value"])
+
+        authors = ", ".join(authors_list) if authors_list else "N/A"
 
         # -------- YEAR --------
         year = 0
@@ -193,7 +204,7 @@ def get_publications():
 
         publication = {
             "title": title,
-            "authors": "Aakashjit Bhattacharya et al.",
+            "authors": authors,
             "venue": venue,
             "year": year,
             "type": pub_type,
