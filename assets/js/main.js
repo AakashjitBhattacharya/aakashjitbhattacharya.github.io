@@ -98,10 +98,7 @@ function startLoader() {
       clearInterval(interval);
       statusText.textContent = "Federated MEC System Ready";
 
-      setTimeout(() => {
-        document.body.classList.add("loaded");
-      }, 1000);
-    }
+      document.body.classList.add("loaded");
 
   }, 20);
 }
