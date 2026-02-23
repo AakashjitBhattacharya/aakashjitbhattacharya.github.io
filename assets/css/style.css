@@ -277,9 +277,7 @@ nav a:hover::after {
     background: #111827;
     flex-direction: column;
     padding-top: 120px;
-    transition: right 0.45s cubic-bezier(.68,-0.55,.27,1.55);
-    box-shadow: -8px 0 25px rgba(0,0,0,0.5);
-    z-index: 1000;
+    transition: right 0.45s cubic-bezier(.68,-0.55,.27,1.55);   
     border-left: 2px solid rgba(56,189,248,0.3);
     box-shadow:
       -8px 0 25px rgba(0,0,0,0.5),
@@ -287,6 +285,7 @@ nav a:hover::after {
   }
 
   nav.active {
+     right: 0;
     animation: drawerGlow 1.5s ease infinite alternate;
   }
 
