@@ -11,14 +11,14 @@ body {
 }
 
 /* =========================
-   ADVANCED NETWORK LOADER
+   RESEARCH SYSTEM LOADER
 ========================= */
 
 #loader {
   position: fixed;
   width: 100%;
   height: 100%;
-  background: #0f172a;
+  background: radial-gradient(circle at center, #111827, #0f172a);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,92 +29,90 @@ body {
   text-align: center;
 }
 
-.network {
+.system-graph {
   position: relative;
-  width: 350px;
-  height: 200px;
+  width: 400px;
+  height: 250px;
   margin: 0 auto 30px;
 }
 
-/* Nodes */
-
-.node {
+.layer {
   position: absolute;
-  padding: 10px 18px;
-  border-radius: 25px;
+  padding: 8px 16px;
   border: 2px solid #38bdf8;
-  color: #38bdf8;
+  border-radius: 25px;
   background: #1e293b;
-  transition: all 0.5s ease;
+  color: #38bdf8;
+  transition: all 0.6s ease;
+  font-size: 14px;
 }
 
-.node.active {
+.layer.active {
   background: #38bdf8;
   color: #0f172a;
-  box-shadow: 0 0 20px #38bdf8;
+  box-shadow: 0 0 25px #38bdf8;
 }
 
 .iot { bottom: 0; left: 0; }
-.edge { top: 0; left: 120px; }
-.cloud { bottom: 0; right: 0; }
+.fog { bottom: 0; right: 0; }
+.edge { top: 120px; left: 120px; }
+.mec { top: 60px; left: 120px; }
+.cloud { top: 0; left: 120px; }
 
 /* Connections */
 
 .connection {
   position: absolute;
-  height: 2px;
+  width: 2px;
   background: #38bdf8;
-  opacity: 0.3;
+  opacity: 0.2;
+  transition: opacity 0.5s ease;
 }
 
-.conn1 {
-  width: 140px;
-  top: 90px;
-  left: 40px;
-  transform: rotate(-25deg);
+.connection.active {
+  opacity: 1;
+  box-shadow: 0 0 10px #38bdf8;
 }
 
-.conn2 {
-  width: 140px;
-  top: 90px;
-  right: 40px;
-  transform: rotate(25deg);
-}
+.c1 { height: 60px; bottom: 50px; left: 180px; }
+.c2 { height: 60px; top: 60px; left: 180px; }
+.c3 { width: 120px; height: 2px; bottom: 25px; left: 50px; }
+.c4 { width: 120px; height: 2px; bottom: 25px; right: 50px; }
 
-/* Data Packets */
+/* Data packets */
 
 .packet {
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   background: #38bdf8;
   border-radius: 50%;
   opacity: 0;
 }
 
-.packet1 {
+.p1 {
   bottom: 10px;
   left: 10px;
-  animation: moveToEdge 2s infinite;
+  animation: moveUp 2s infinite;
 }
 
-.packet2 {
+.p2 {
   bottom: 10px;
   right: 10px;
-  animation: moveToEdgeReverse 2s infinite;
+  animation: moveUpRight 2s infinite;
 }
 
-@keyframes moveToEdge {
+@keyframes moveUp {
   0% { transform: translate(0,0); opacity: 1; }
-  100% { transform: translate(140px,-100px); opacity: 0; }
+  100% { transform: translate(170px,-180px); opacity: 0; }
 }
 
-@keyframes moveToEdgeReverse {
+@keyframes moveUpRight {
   0% { transform: translate(0,0); opacity: 1; }
-  100% { transform: translate(-140px,-100px); opacity: 0; }
+  100% { transform: translate(-170px,-180px); opacity: 0; }
 }
 
-.status-text {
+.boot-text {
   margin-top: 20px;
   color: #94a3b8;
   font-size: 14px;
