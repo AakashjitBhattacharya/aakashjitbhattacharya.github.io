@@ -64,7 +64,10 @@ def get_publications():
         work = group.get("work-summary", [])[0]
 
         title = work.get("title", {}).get("title", {}).get("value", "No Title")
-        year = work.get("publication-date", {}).get("year", {}).get("value", "0")
+        pub_date = work.get("publication-date")
+        year = 0
+        if pub_date and pub_date.get("year") and pub_date["year"].get("value"):
+            year = int(pub_date["year"]["value"])
         work_type = work.get("type", "conference-paper")
         pub_type = map_type(work_type)
 
@@ -80,14 +83,17 @@ def get_publications():
         citations = get_citation_count(title)
         time.sleep(1)  # Avoid API rate limit
 
+        journal_title = work.get("journal-title")
+        venue = journal_title.get("value") if journal_title else "N/A"
+
         publication = {
-            "title": title,
-            "authors": "Aakashjit Bhattacharya et al.",
-            "venue": work.get("journal-title", {}).get("value", "N/A"),
-            "year": int(year) if year != "0" else 0,
-            "type": pub_type,
-            "citations": citations,
-            "link": link
+        "title": title,
+        "authors": "Aakashjit Bhattacharya et al.",
+        "venue": venue,
+        "year": int(year) if year.isdigit() else 0,
+        "type": pub_type,
+        "citations": citations,
+        "link": link
         }
 
         publications.append(publication)
