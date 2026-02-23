@@ -25,12 +25,22 @@ document.addEventListener("DOMContentLoaded", function () {
 function loadNavbar() {
   fetch("assets/components/navbar.html")
     .then(res => res.text())
-    .then(data => {
+    .then(data => 
+       {
 
       const navContainer = document.getElementById("navbar");
       if (!navContainer) return;
 
       navContainer.innerHTML = data;
+
+          const navPhoto = document.getElementById("nav-photo");
+      if (
+        window.location.pathname.endsWith("index.html") ||
+        window.location.pathname === "/" ||
+        window.location.pathname.endsWith("/")
+      ) {
+        if (navPhoto) navPhoto.style.display = "none";
+      }
 
       const toggle = document.getElementById("menu-toggle");
       const navMenu = document.getElementById("nav-menu");
