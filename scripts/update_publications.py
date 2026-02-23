@@ -5,34 +5,60 @@ import re
 
 ORCID_ID = "0000-0003-2188-6245"
 BASE_URL = "https://pub.orcid.org/v3.0"
-HEADERS = {
-    "Accept": "application/vnd.orcid+json"
-}
+HEADERS = {"Accept": "application/vnd.orcid+json"}
 
+CROSSREF_API = "https://api.crossref.org/works/"
 SEMANTIC_SCHOLAR_API = "https://api.semanticscholar.org/graph/v1/paper/search"
 
 
+# ---------------- CLEAN HTML ----------------
 def clean_html(text):
     if not text:
         return ""
     return re.sub(r"<.*?>", "", text)
 
 
-def classify_work(work):
-    """
-    Generic classification based on:
-    - ORCID work type
-    - container title
-    - journal title presence
-    """
+# ---------------- CROSSREF CLASSIFICATION ----------------
+def classify_via_crossref(doi):
+    try:
+        response = requests.get(CROSSREF_API + doi)
+        if response.status_code != 200:
+            return None
 
+        data = response.json()
+        work_type = data["message"].get("type", "").lower()
+
+        if "journal-article" in work_type:
+            return "Journal"
+
+        if "proceedings-article" in work_type:
+            return "Conference"
+
+        if "book-chapter" in work_type:
+            return "Book Chapter"
+
+        if "book" in work_type:
+            return "Book Chapter"
+
+        if "report" in work_type:
+            return "Conference"
+
+        if "patent" in work_type:
+            return "Patent"
+
+        return None
+    except:
+        return None
+
+
+# ---------------- FALLBACK CLASSIFICATION ----------------
+def classify_fallback(work):
     work_type = (work.get("type") or "").lower()
 
-    # Direct mapping
     if "patent" in work_type:
         return "Patent"
 
-    if "book-chapter" in work_type or "book-section" in work_type:
+    if "book" in work_type:
         return "Book Chapter"
 
     if "conference" in work_type:
@@ -41,15 +67,14 @@ def classify_work(work):
     if "journal" in work_type:
         return "Journal"
 
-    # Secondary logic based on container title
     journal_title = work.get("journal-title")
     if journal_title and journal_title.get("value"):
         return "Journal"
 
-    # Fallback
     return "Conference"
 
 
+# ---------------- CITATIONS ----------------
 def get_citation_count(title):
     try:
         params = {
@@ -68,6 +93,7 @@ def get_citation_count(title):
         return 0
 
 
+# ---------------- GET FULL WORK ----------------
 def get_full_work(put_code):
     url = f"{BASE_URL}/{ORCID_ID}/work/{put_code}"
     response = requests.get(url, headers=HEADERS)
@@ -76,6 +102,7 @@ def get_full_work(put_code):
     return None
 
 
+# ---------------- MAIN FUNCTION ----------------
 def get_publications():
     summary_url = f"{BASE_URL}/{ORCID_ID}/works"
     response = requests.get(summary_url, headers=HEADERS)
@@ -116,6 +143,22 @@ def get_publications():
             except:
                 year = 0
 
+        # -------- DOI --------
+        doi = None
+        external_ids = full_work.get("external-ids", {}).get("external-id", [])
+        for ext in external_ids:
+            if ext.get("external-id-type", "").lower() == "doi":
+                doi = ext.get("external-id-value")
+                break
+
+        # -------- CLASSIFICATION --------
+        pub_type = None
+        if doi:
+            pub_type = classify_via_crossref(doi)
+
+        if not pub_type:
+            pub_type = classify_fallback(full_work)
+
         # -------- VENUE --------
         venue = "N/A"
         journal_title = full_work.get("journal-title")
@@ -123,15 +166,7 @@ def get_publications():
             venue = journal_title.get("value")
 
         # -------- LINK --------
-        link = "#"
-        external_ids = full_work.get("external-ids", {}).get("external-id", [])
-        for ext in external_ids:
-            if ext.get("external-id-url") and ext["external-id-url"].get("value"):
-                link = ext["external-id-url"]["value"]
-                break
-
-        # -------- CLASSIFICATION --------
-        pub_type = classify_work(full_work)
+        link = f"https://doi.org/{doi}" if doi else "#"
 
         # -------- CITATIONS --------
         print(f"Fetching citations for: {title}")
