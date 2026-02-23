@@ -235,7 +235,7 @@ function typeQuote() {
   quoteIndex++;
 
   if (quoteIndex < quoteText.length) {
-    setTimeout(typeQuote, 60);
+    setTimeout(typeQuote, 10);
   }
 }
 
