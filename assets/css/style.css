@@ -1,5 +1,15 @@
 /* Global */
+.profile-photo {
+  width: 180px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  transition: transform 0.3s;
+}
 
+.profile-photo:hover {
+  transform: scale(1.05);
+}
 body {
   margin: 0;
   font-family: 'Segoe UI', Roboto, sans-serif;
