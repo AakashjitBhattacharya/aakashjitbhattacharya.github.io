@@ -1,37 +1,50 @@
 # update_citations.py
-# GitHub Action runner script that uses `scholarly` to fetch google scholar profile and write data/citations.json
-# Requires: scholarly, requests
+# Only updates total citation count from Google Scholar
+# Publications are maintained separately in publications.json
+
 import json
-from scholarly import scholarly
 import datetime
+import requests
+from bs4 import BeautifulSoup
 
-GSCHOLAR_USER = "BLMncXIAAAAJ"  # from search results; change if needed
+GSCHOLAR_USER = "BLMncXIAAAAJ"
+SCHOLAR_URL = f"https://scholar.google.com/citations?user={GSCHOLAR_USER}&hl=en"
 
-def fetch_profile(user_id):
-    query = scholarly.search_author_id(user_id)
-    author = scholarly.fill(query, sections=['basics','publications','indices'])
-    return author
+def fetch_total_citations():
+    headers = {
+        "User-Agent": "Mozilla/5.0"
+    }
+
+    response = requests.get(SCHOLAR_URL, headers=headers)
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    # Scholar citation count is inside table with class gsc_rsb_st
+    table = soup.find("table", {"id": "gsc_rsb_st"})
+
+    if not table:
+        return 0
+
+    rows = table.find_all("tr")
+
+    for row in rows:
+        cols = row.find_all("td")
+        if cols and "Citations" in cols[0].text:
+            return int(cols[1].text.strip())
+
+    return 0
+
 
 def main():
-    author = fetch_profile(GSCHOLAR_USER)
-    total_cites = author.get('citedby', 0) or author.get('indices', {}).get('citedby', 0)
-    pubs = []
-    for p in author.get('publications', [])[:200]:
-        pub = {
-            'title': p.get('bib', {}).get('title'),
-            'year': p.get('bib', {}).get('pub_year'),
-            'venue': p.get('bib', {}).get('venue'),
-            'citations': p.get('num_citations', 0),
-            'link': p.get('pub_url') or p.get('bib', {}).get('url')
-        }
-        pubs.append(pub)
-    out = {
-        'generated_at': datetime.datetime.utcnow().isoformat()+'Z',
-        'total_citations': total_cites,
-        'publications': pubs
-    }
-    with open('data/citations.json', 'w', encoding='utf-8') as f:
-        json.dump(out, f, indent=2)
+    total_cites = fetch_total_citations()
 
-if __name__ == '__main__':
+    output = {
+        "generated_at": datetime.datetime.utcnow().isoformat() + "Z",
+        "total_citations": total_cites
+    }
+
+    with open("data/citations.json", "w", encoding="utf-8") as f:
+        json.dump(output, f, indent=2)
+
+
+if __name__ == "__main__":
     main()
