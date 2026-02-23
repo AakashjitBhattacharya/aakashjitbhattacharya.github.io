@@ -1,181 +1,39 @@
 /* =========================
-   STICKY FOOTER LAYOUT
+   ROOT & GLOBAL SETTINGS
 ========================= */
+
+* {
+  box-sizing: border-box;
+}
 
 html, body {
   height: 100%;
+  margin: 0;
 }
 
 body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-}
-
-/* Main content should expand */
-main {
-  flex: 1;
- padding-top: 120px;
-}
-/* =========================
-   GLOBAL
-========================= */
-
-
-body {
-  margin: 0;
   font-family: 'Segoe UI', Roboto, sans-serif;
   background: #0f172a;
   color: #f1f5f9;
   overflow-x: hidden;
 }
 
-
-/* =========================
-   MEC RESEARCH LOADER
-========================= */
-
-#loader {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, #0f172a, #111827);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
+/* Main layout */
+main {
+  flex: 1;
+  padding-top: 110px;
 }
 
-.loader-scene {
-  width: 500px;
-  height: 400px;
-  position: relative;
-  text-align: center;
+/* Container */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 0 30px;
 }
 
-/* Cloud */
-
-.cloud-layer {
-  position: absolute;
-  top: 20px;
-  width: 100%;
-}
-
-.cloud-node {
-  display: inline-block;
-  padding: 10px 20px;
-  border-radius: 25px;
-  background: #38bdf8;
-  color: #0f172a;
-  font-weight: bold;
-  box-shadow: 0 0 25px #38bdf8;
-  opacity: 0.3;
-  transition: 0.5s;
-}
-
-.cloud-node.active {
-  opacity: 1;
-}
-
-/* MEC Layer */
-
-.mec-layer {
-  position: absolute;
-  top: 150px;
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-}
-
-.mec-station {
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: 2px solid #38bdf8;
-  color: #38bdf8;
-  background: #1e293b;
-  transition: 0.5s;
-  opacity: 0.4;
-}
-
-.mec-station.active {
-  opacity: 1;
-  background: #38bdf8;
-  color: #0f172a;
-  box-shadow: 0 0 20px #38bdf8;
-}
-
-/* Device Layer */
-
-.device-layer {
-  position: absolute;
-  bottom: 40px;
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  font-size: 32px;
-}
-
-/* Movement animations */
-
-.vehicle {
-  animation: moveCar 3s infinite alternate ease-in-out;
-}
-
-.drone {
-  animation: flyDrone 3s infinite alternate ease-in-out;
-}
-
-.mobile-bs {
-  animation: pulseBS 2s infinite ease-in-out;
-}
-
-@keyframes moveCar {
-  from { transform: translateX(-30px); }
-  to { transform: translateX(30px); }
-}
-
-@keyframes flyDrone {
-  from { transform: translateY(-15px); }
-  to { transform: translateY(15px); }
-}
-
-@keyframes pulseBS {
-  0%,100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-}
-
-/* Data Lines */
-
-.mec-layer::before,
-.mec-layer::after {
-  content: '';
-  position: absolute;
-  top: -60px;
-  width: 2px;
-  height: 60px;
-  background: #38bdf8;
-  opacity: 0.3;
-}
-
-.mec-layer::before { left: 25%; }
-.mec-layer::after { right: 25%; }
-
-.status-text {
-  position: absolute;
-  bottom: 80px;
-  width: 100%;
-  color: #94a3b8;
-  font-size: 14px;
-}
-
-.percentage {
-  position: absolute;
-  bottom: 50px;
-  width: 100%;
-  font-size: 20px;
-  font-weight: bold;
-  color: #38bdf8;
-}
 /* =========================
    HEADER
 ========================= */
@@ -186,15 +44,9 @@ body {
   top: 0;
   background: rgba(15,23,42,0.9);
   backdrop-filter: blur(10px);
-  padding: 20px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
   z-index: 1000;
-}
-
-.container {
-  max-width: 1100px;
-  margin: auto;
-  padding: 0 30px;
 }
 
 .nav-container {
@@ -206,7 +58,13 @@ body {
 .site-title {
   color: #38bdf8;
   margin: 0;
-  font-size: 22px;
+  font-size: 20px;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 nav a {
@@ -215,6 +73,7 @@ nav a {
   color: #f1f5f9;
   font-weight: 500;
   position: relative;
+  font-size: 15px;
 }
 
 nav a::after {
@@ -233,7 +92,7 @@ nav a:hover::after {
 }
 
 /* =========================
-   HERO SECTION (CLEAN VERSION)
+   HERO SECTION
 ========================= */
 
 .hero {
@@ -242,9 +101,7 @@ nav a:hover::after {
   align-items: center;
   justify-content: center;
   text-align: center;
-
-  /* Lift content slightly upward */
-  transform: translateY(-60px);
+  transform: translateY(-40px);
 }
 
 .hero-content-centered {
@@ -253,12 +110,13 @@ nav a:hover::after {
   animation: fadeHero 1s ease forwards;
   opacity: 0;
 }
+
 @keyframes fadeHero {
   to { opacity: 1; }
 }
 
 .hero-name {
-  font-size: 48px;
+  font-size: clamp(28px, 5vw, 48px);
   margin: 10px 0;
   color: #38bdf8;
 }
@@ -266,12 +124,14 @@ nav a:hover::after {
 .hero-content-centered h3 {
   font-weight: 400;
   color: #94a3b8;
+  font-size: clamp(16px, 2.5vw, 20px);
 }
 
 .hero-content-centered p {
   margin-top: 20px;
   line-height: 1.6;
   color: #cbd5e1;
+  font-size: clamp(14px, 2vw, 16px);
 }
 
 /* =========================
@@ -283,19 +143,17 @@ nav a:hover::after {
   border-radius: 50%;
   background: linear-gradient(135deg, #38bdf8, #6366f1);
   display: inline-block;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
   box-shadow: 0 0 40px rgba(56,189,248,0.25);
 }
 
 .profile-photo {
-  width: 260px;
-  height: 260px;
+  width: clamp(150px, 25vw, 260px);
+  height: clamp(150px, 25vw, 260px);
   border-radius: 50%;
   object-fit: cover;
   display: block;
 }
-
-/* Floating animation only */
 
 .floating {
   animation: float 4s ease-in-out infinite;
@@ -303,52 +161,130 @@ nav a:hover::after {
 
 @keyframes float {
   0% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
+  50% { transform: translateY(-10px); }
   100% { transform: translateY(0px); }
 }
 
 /* =========================
-   RESPONSIVE
+   MEC RESEARCH LOADER
 ========================= */
 
-@media(max-width: 900px) {
-  .hero-name {
-    font-size: 36px;
-  }
-
-  .profile-photo {
-    width: 200px;
-    height: 200px;
-  }
+#loader {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #0f172a, #111827);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 }
-/* =========================
-   Scroll bar
-========================= */
-.scroll-indicator {
-  width: 25px;
-  height: 40px;
-  border: 2px solid #38bdf8;
-  border-radius: 20px;
-  margin: 40px auto 0;
+
+.loader-scene {
+  width: min(90%, 500px);
+  height: 400px;
   position: relative;
+  text-align: center;
 }
 
-.scroll-indicator::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  background: #38bdf8;
-  border-radius: 50%;
+/* Cloud */
+
+.cloud-layer {
   position: absolute;
-  top: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  animation: scrollMove 2s infinite;
+  top: 20px;
+  width: 100%;
 }
 
-@keyframes scrollMove {
-  0% { top: 8px; opacity: 1; }
-  100% { top: 22px; opacity: 0; }
+.cloud-node {
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 25px;
+  background: #38bdf8;
+  color: #0f172a;
+  font-weight: bold;
+  box-shadow: 0 0 20px #38bdf8;
+  opacity: 0.3;
+  transition: 0.5s;
+  font-size: 14px;
+}
+
+.cloud-node.active {
+  opacity: 1;
+}
+
+/* MEC */
+
+.mec-layer {
+  position: absolute;
+  top: 150px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.mec-station {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 2px solid #38bdf8;
+  color: #38bdf8;
+  background: #1e293b;
+  transition: 0.5s;
+  opacity: 0.4;
+  font-size: 13px;
+}
+
+.mec-station.active {
+  opacity: 1;
+  background: #38bdf8;
+  color: #0f172a;
+  box-shadow: 0 0 15px #38bdf8;
+}
+
+/* Devices */
+
+.device-layer {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  font-size: 28px;
+}
+
+.vehicle { animation: moveCar 3s infinite alternate ease-in-out; }
+.drone { animation: flyDrone 3s infinite alternate ease-in-out; }
+.mobile-bs { animation: pulseBS 2s infinite ease-in-out; }
+
+@keyframes moveCar {
+  from { transform: translateX(-25px); }
+  to { transform: translateX(25px); }
+}
+
+@keyframes flyDrone {
+  from { transform: translateY(-12px); }
+  to { transform: translateY(12px); }
+}
+
+@keyframes pulseBS {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.status-text {
+  position: absolute;
+  bottom: 80px;
+  width: 100%;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.percentage {
+  position: absolute;
+  bottom: 50px;
+  width: 100%;
+  font-size: 18px;
+  font-weight: bold;
+  color: #38bdf8;
 }
 
 /* =========================
@@ -357,10 +293,10 @@ nav a:hover::after {
 
 .site-footer {
   background: #0b1220;
-  border-top: 1px solid rgba(255,255,255,0.1);
-  padding: 25px 0;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 22px 0;
   text-align: center;
-  margin-top: 80px;
+  margin-top: 60px;
 }
 
 .footer-container {
@@ -368,4 +304,61 @@ nav a:hover::after {
   margin: auto;
   color: #94a3b8;
   font-size: 14px;
+}
+
+/* =========================
+   RESPONSIVE BREAKPOINTS
+========================= */
+
+/* Mobile */
+@media (max-width: 600px) {
+
+  main {
+    padding-top: 90px;
+  }
+
+  .container {
+    padding: 0 15px;
+  }
+
+  .hero {
+    transform: translateY(0);
+  }
+
+  .nav-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  nav a {
+    margin: 6px 10px;
+    font-size: 14px;
+  }
+
+  .device-layer {
+    font-size: 22px;
+  }
+
+}
+
+/* Tablet */
+@media (min-width: 601px) and (max-width: 1024px) {
+
+  .hero {
+    transform: translateY(-20px);
+  }
+
+}
+
+/* Large Desktop */
+@media (min-width: 1440px) {
+
+  .container {
+    max-width: 1300px;
+  }
+
+  .hero-name {
+    font-size: 56px;
+  }
+
 }
