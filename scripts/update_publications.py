@@ -28,21 +28,26 @@ def classify_via_crossref(doi):
         data = response.json()
         work_type = data["message"].get("type", "").lower()
 
+        # -------- PREPRINT --------
+        if "posted-content" in work_type:
+            return "Preprint"
+
+        # -------- JOURNAL --------
         if "journal-article" in work_type:
             return "Journal"
 
+        # -------- CONFERENCE --------
         if "proceedings-article" in work_type:
             return "Conference"
 
+        # -------- BOOK CHAPTER --------
         if "book-chapter" in work_type:
             return "Book Chapter"
 
         if "book" in work_type:
             return "Book Chapter"
 
-        if "report" in work_type:
-            return "Conference"
-
+        # -------- PATENT --------
         if "patent" in work_type:
             return "Patent"
 
@@ -55,24 +60,37 @@ def classify_via_crossref(doi):
 def classify_fallback(work):
     work_type = (work.get("type") or "").lower()
 
+    # -------- PREPRINT --------
+    if "preprint" in work_type:
+        return "Preprint"
+
+    # -------- PATENT --------
     if "patent" in work_type:
         return "Patent"
 
+    # -------- BOOK --------
     if "book" in work_type:
         return "Book Chapter"
 
+    # -------- CONFERENCE --------
     if "conference" in work_type:
         return "Conference"
 
+    # -------- JOURNAL --------
     if "journal" in work_type:
         return "Journal"
 
+    # -------- Check journal-title for arXiv etc --------
     journal_title = work.get("journal-title")
     if journal_title and journal_title.get("value"):
+        venue_name = journal_title.get("value").lower()
+
+        if "arxiv" in venue_name or "ssrn" in venue_name or "techrxiv" in venue_name:
+            return "Preprint"
+
         return "Journal"
 
     return "Conference"
-
 
 # ---------------- CITATIONS ----------------
 def get_citation_count(title):
