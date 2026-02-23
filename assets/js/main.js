@@ -27,8 +27,19 @@ function loadNavbar() {
   fetch("assets/components/navbar.html")
     .then(res => res.text())
     .then(data => {
-      const nav = document.getElementById("navbar");
-      if (nav) nav.innerHTML = data;
+      const navContainer = document.getElementById("navbar");
+      if (navContainer) {
+        navContainer.innerHTML = data;
+
+        const toggle = document.getElementById("menu-toggle");
+        const navMenu = document.getElementById("nav-menu");
+
+        if (toggle && navMenu) {
+          toggle.addEventListener("click", function () {
+            navMenu.classList.toggle("active");
+          });
+        }
+      }
     });
 }
 
