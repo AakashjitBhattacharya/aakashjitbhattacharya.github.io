@@ -1,15 +1,4 @@
 /* =========================
-   GLOBAL
-========================= */
-
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Roboto, sans-serif;
-  background: #0f172a;
-  color: #f1f5f9;
-  overflow-x: hidden;
-}
-/* =========================
    STICKY FOOTER LAYOUT
 ========================= */
 
@@ -27,6 +16,19 @@ body {
 main {
   flex: 1;
 }
+/* =========================
+   GLOBAL
+========================= */
+
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  background: #0f172a;
+  color: #f1f5f9;
+  overflow-x: hidden;
+}
+
 
 /* =========================
    MEC RESEARCH LOADER
@@ -238,7 +240,8 @@ nav a:hover::after {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 120px; /* space for fixed header */
+   flex: 1;
+  padding-top: 120px; /* space for fixed navbar */
   text-align: center;
 }
 
