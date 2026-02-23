@@ -1,3 +1,15 @@
+/* =========================
+   LOAD SHARED COMPONENTS
+========================= */
+
+// Load shared loader
+fetch("assets/components/loader.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("loader-container").innerHTML = data;
+    startLoader();   // start after loader is injected
+  });
+
 // Load shared navbar
 fetch("assets/components/navbar.html")
   .then(response => response.text())
@@ -13,16 +25,32 @@ fetch("assets/components/footer.html")
     document.getElementById("current-year").textContent =
       new Date().getFullYear();
   });
-// Load shared loader
-fetch("assets/components/loader.html")
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById("loader-container").innerHTML = data;
+/* =========================
+   LOADER FUNCTION
+========================= */
 
-    startLoader();  // start animation after injection
-  });
+function startLoader() {
+  let percent = 0;
+  const percentElement = document.getElementById("load-percent");
 
-// Typing Animation
+  const interval = setInterval(() => {
+    percent++;
+    percentElement.textContent = percent;
+
+    if (percent >= 100) {
+      clearInterval(interval);
+
+      setTimeout(() => {
+        document.body.classList.add("loaded");
+      }, 300);
+    }
+  }, 20);
+}
+
+/* =========================
+   TYPING ANIMATION
+========================= */
+
 const texts = [
   "Multi-Access Edge Computing",
   "Federated MEC",
