@@ -27,6 +27,7 @@ function loadNavbar() {
   fetch("assets/components/navbar.html")
     .then(res => res.text())
     .then(data => {
+
       const navContainer = document.getElementById("navbar");
       if (!navContainer) return;
 
@@ -34,7 +35,6 @@ function loadNavbar() {
 
       const toggle = document.getElementById("menu-toggle");
       const navMenu = document.getElementById("nav-menu");
-      const closeBtn = document.getElementById("close-btn");
       const overlay = document.getElementById("overlay");
 
       function openMenu() {
@@ -42,8 +42,7 @@ function loadNavbar() {
         overlay.classList.add("active");
         toggle.classList.add("active");
         document.body.style.overflow = "hidden";
-   }
-
+      }
 
       function closeMenu() {
         navMenu.classList.remove("active");
@@ -53,10 +52,22 @@ function loadNavbar() {
       }
 
       if (toggle) toggle.addEventListener("click", openMenu);
-      if (closeBtn) closeBtn.addEventListener("click", closeMenu);
+
+      // Close when clicking overlay
       if (overlay) overlay.addEventListener("click", closeMenu);
 
-      // Auto close when clicking a link
+      // Close when clicking anywhere outside nav
+      document.addEventListener("click", function(e) {
+        if (
+          navMenu.classList.contains("active") &&
+          !navMenu.contains(e.target) &&
+          !toggle.contains(e.target)
+        ) {
+          closeMenu();
+        }
+      });
+
+      // Close when clicking a link
       const links = navMenu.querySelectorAll("a");
       links.forEach(link => {
         link.addEventListener("click", closeMenu);
