@@ -26,19 +26,7 @@
 
 /* Keep rotating gradient border */
 
-.photo-wrapper {
-  padding: 6px;
-  border-radius: 50%;
-  background: linear-gradient(45deg, #38bdf8, #6366f1, #ec4899);
-  display: inline-block;
-}
 
-
-.profile-photo {
-  width: 260px;
-  border-radius: 50%;
-  display: block;
-}
 body {
   margin: 0;
   font-family: 'Segoe UI', Roboto, sans-serif;
@@ -177,19 +165,22 @@ nav a:hover::after {
 .photo-wrapper {
   padding: 6px;
   border-radius: 50%;
-  background: linear-gradient(45deg, #38bdf8, #6366f1, #ec4899);
-  animation: rotateBorder 6s linear infinite;
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
+  display: inline-block;
+}
+
+.profile-photo {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
 }
 
 @keyframes rotateBorder {
   to { transform: rotate(360deg); }
 }
 
-.profile-photo {
-  width: 280px;
-  border-radius: 50%;
-  display: block;
-}
 
 /* Responsive */
 
