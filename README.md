@@ -1,1 +1,1 @@
-URL: https://aakashjitbhattacharya.github.io/publications.html
+URL: https://aakashjitbhattacharya.github.io/
