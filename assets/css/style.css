@@ -21,13 +21,12 @@ body {
   overflow-x: hidden;
 }
 
-/* Main layout */
+/* Layout */
 main {
   flex: 1;
-  padding-top: 120px; /* ensures content always below navbar */
+  padding-top: 120px;
 }
 
-/* Container */
 .container {
   max-width: 1100px;
   margin: auto;
@@ -61,10 +60,15 @@ main {
   font-size: 20px;
 }
 
+/* =========================
+   DESKTOP NAV
+========================= */
+
 nav {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 nav a {
@@ -74,6 +78,11 @@ nav a {
   font-weight: 500;
   position: relative;
   font-size: 15px;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #38bdf8;
 }
 
 nav a::after {
@@ -92,7 +101,7 @@ nav a:hover::after {
 }
 
 /* =========================
-   HERO SECTION
+   HERO
 ========================= */
 
 .hero {
@@ -165,128 +174,6 @@ nav a:hover::after {
 }
 
 /* =========================
-   MEC RESEARCH LOADER
-========================= */
-
-#loader {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, #0f172a, #111827);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.loader-scene {
-  width: min(90%, 500px);
-  height: 400px;
-  position: relative;
-  text-align: center;
-}
-
-/* Cloud */
-
-.cloud-layer {
-  position: absolute;
-  top: 20px;
-  width: 100%;
-}
-
-.cloud-node {
-  display: inline-block;
-  padding: 8px 18px;
-  border-radius: 25px;
-  background: #38bdf8;
-  color: #0f172a;
-  font-weight: bold;
-  box-shadow: 0 0 20px #38bdf8;
-  opacity: 0.3;
-  transition: 0.5s;
-  font-size: 14px;
-}
-
-.cloud-node.active {
-  opacity: 1;
-}
-
-/* MEC */
-
-.mec-layer {
-  position: absolute;
-  top: 150px;
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-}
-
-.mec-station {
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 2px solid #38bdf8;
-  color: #38bdf8;
-  background: #1e293b;
-  transition: 0.5s;
-  opacity: 0.4;
-  font-size: 13px;
-}
-
-.mec-station.active {
-  opacity: 1;
-  background: #38bdf8;
-  color: #0f172a;
-  box-shadow: 0 0 15px #38bdf8;
-}
-
-/* Devices */
-
-.device-layer {
-  position: absolute;
-  bottom: 40px;
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  font-size: 28px;
-}
-
-.vehicle { animation: moveCar 3s infinite alternate ease-in-out; }
-.drone { animation: flyDrone 3s infinite alternate ease-in-out; }
-.mobile-bs { animation: pulseBS 2s infinite ease-in-out; }
-
-@keyframes moveCar {
-  from { transform: translateX(-25px); }
-  to { transform: translateX(25px); }
-}
-
-@keyframes flyDrone {
-  from { transform: translateY(-12px); }
-  to { transform: translateY(12px); }
-}
-
-@keyframes pulseBS {
-  0%,100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-}
-
-.status-text {
-  position: absolute;
-  bottom: 80px;
-  width: 100%;
-  color: #94a3b8;
-  font-size: 13px;
-}
-
-.percentage {
-  position: absolute;
-  bottom: 50px;
-  width: 100%;
-  font-size: 18px;
-  font-weight: bold;
-  color: #38bdf8;
-}
-
-/* =========================
    FOOTER
 ========================= */
 
@@ -306,73 +193,53 @@ nav a:hover::after {
 }
 
 /* =========================
-   RESPONSIVE BREAKPOINTS
+   PREMIUM MOBILE NAVIGATION
 ========================= */
 
-/* Mobile */
-@media (max-width: 600px) {
-
-  main {
-    padding-top: 90px;
-  }
-
-  .container {
-    padding: 0 15px;
-  }
- 
-
-  .nav-container {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  nav a {
-    margin: 6px 10px;
-    font-size: 14px;
-  }
-
-  .device-layer {
-    font-size: 22px;
-  }
-
-}
-
-/* Tablet */
-@media (min-width: 601px) and (max-width: 1024px) {
-
-  .hero {
-    transform: translateY(-20px);
-  }
-
-}
-
-/* Large Desktop */
-@media (min-width: 1440px) {
-
-  .container {
-    max-width: 1300px;
-  }
-
-  .hero-name {
-    font-size: 56px;
-  }
-
-}
-/* =========================
-   PREMIUM MOBILE NAV
-========================= */
-.close-btn {
-  display: none;
-}
+/* Hamburger button */
 
 .menu-toggle {
   display: none;
-  font-size: 26px;
+  width: 30px;
+  height: 22px;
+  position: relative;
   cursor: pointer;
-  color: #38bdf8;
+  margin-left: auto;
 }
 
-/* Overlay background */
+/* Hamburger bars */
+
+.menu-toggle span {
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  background: #38bdf8;
+  left: 0;
+  transition: all 0.3s ease;
+}
+
+.menu-toggle span:nth-child(1) { top: 0; }
+.menu-toggle span:nth-child(2) { top: 9px; }
+.menu-toggle span:nth-child(3) { top: 18px; }
+
+/* Animate to X */
+
+.menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg);
+  top: 9px;
+}
+
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg);
+  top: 9px;
+}
+
+/* Overlay */
+
 .overlay {
   position: fixed;
   top: 0;
@@ -392,15 +259,8 @@ nav a:hover::after {
   visibility: visible;
 }
 
-/* Default nav */
-nav {
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  white-space: nowrap;
-}
+/* Drawer Mode */
 
-/* Mobile behavior */
 @media (max-width: 1150px) {
 
   .menu-toggle {
@@ -415,8 +275,8 @@ nav {
     width: 260px;
     background: #111827;
     flex-direction: column;
-    padding-top: 100px;
-    transition: right 0.3s ease;
+    padding-top: 120px;
+    transition: right 0.35s ease;
     box-shadow: -8px 0 25px rgba(0,0,0,0.5);
     z-index: 1000;
   }
@@ -428,24 +288,39 @@ nav {
   nav a {
     margin: 15px 0;
     font-size: 16px;
+    opacity: 0;
+    transform: translateX(20px);
+    animation: slideIn 0.4s forwards;
   }
 
-  .close-btn {
-    display: block;
-    position: absolute;
-    top: 25px;
-    right: 25px;
-    font-size: 22px;
-    cursor: pointer;
-    color: #38bdf8;
-  }
+  nav.active a:nth-child(1) { animation-delay: 0.1s; }
+  nav.active a:nth-child(2) { animation-delay: 0.15s; }
+  nav.active a:nth-child(3) { animation-delay: 0.2s; }
+  nav.active a:nth-child(4) { animation-delay: 0.25s; }
+  nav.active a:nth-child(5) { animation-delay: 0.3s; }
+  nav.active a:nth-child(6) { animation-delay: 0.35s; }
 
 }
-.nav-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
-.menu-toggle {
-  margin-left: auto;
+
+/* =========================
+   LARGE DESKTOP
+========================= */
+
+@media (min-width: 1440px) {
+
+  .container {
+    max-width: 1300px;
+  }
+
+  .hero-name {
+    font-size: 56px;
+  }
+
 }
