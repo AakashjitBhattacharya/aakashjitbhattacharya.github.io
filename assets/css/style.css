@@ -361,6 +361,9 @@ nav a:hover::after {
 /* =========================
    PREMIUM MOBILE NAV
 ========================= */
+.close-btn {
+  display: none;
+}
 
 .menu-toggle {
   display: none;
@@ -426,6 +429,7 @@ nav {
   }
 
   .close-btn {
+    display: block;
     position: absolute;
     top: 25px;
     right: 25px;
