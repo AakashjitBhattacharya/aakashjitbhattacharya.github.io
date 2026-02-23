@@ -464,3 +464,46 @@ nav a:hover::after {
 .contact-item a:hover {
   text-decoration: underline;
 }
+/* =========================
+   CONTACT FORM
+========================= */
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 14px;
+  border-radius: 6px;
+  border: 1px solid #1f2937;
+  background: #0f172a;
+  color: #ffffff;
+  font-size: 15px;
+  outline: none;
+  transition: border 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border: 1px solid #38bdf8;
+}
+
+.submit-btn {
+  padding: 14px;
+  border-radius: 6px;
+  border: none;
+  background: #38bdf8;
+  color: #0f172a;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(56,189,248,0.5);
+}
