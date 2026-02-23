@@ -3,22 +3,22 @@ import json
 import time
 import re
 
+# ---------------- CONFIG ----------------
 ORCID_ID = "0000-0003-2188-6245"
-BASE_URL = "https://pub.orcid.org/v3.0"
+BASE_ORCID = "https://pub.orcid.org/v3.0"
 HEADERS = {"Accept": "application/vnd.orcid+json"}
 
 CROSSREF_API = "https://api.crossref.org/works/"
-SEMANTIC_API = "https://api.semanticscholar.org/graph/v1/paper/DOI:"
+SEMANTIC_DOI_API = "https://api.semanticscholar.org/graph/v1/paper/DOI:"
+DBLP_DOI_API = "https://dblp.org/search/publ/api"
 
 MY_NAME_KEYWORDS = ["aakashjit", "bhattacharya"]
 
-
-# ---------------- CLEAN HTML ----------------
+# ---------------- UTILS ----------------
 def clean_html(text):
     if not text:
         return ""
     return re.sub(r"<.*?>", "", text)
-
 
 # ---------------- CROSSREF CLASSIFICATION ----------------
 def classify_via_crossref(doi):
@@ -46,7 +46,6 @@ def classify_via_crossref(doi):
     except:
         return None
 
-
 # ---------------- FALLBACK CLASSIFICATION ----------------
 def classify_fallback(work):
     work_type = (work.get("type") or "").lower()
@@ -71,15 +70,62 @@ def classify_fallback(work):
 
     return "Conference"
 
+# ---------------- DBLP AUTHOR EXTRACTION ----------------
+def get_authors_from_dblp(doi):
+    try:
+        params = {
+            "q": f"doi:{doi}",
+            "format": "json"
+        }
+        r = requests.get(DBLP_DOI_API, params=params)
+        if r.status_code != 200:
+            return []
 
-# ---------------- CITATIONS VIA DOI ----------------
+        hits = r.json().get("result", {}).get("hits", {}).get("hit", [])
+        if not hits:
+            return []
+
+        info = hits[0].get("info", {})
+        authors = info.get("authors", {}).get("author", [])
+
+        if isinstance(authors, list):
+            return authors
+        elif isinstance(authors, str):
+            return [authors]
+
+        return []
+    except:
+        return []
+
+# ---------------- CROSSREF AUTHOR FALLBACK ----------------
+def get_authors_from_crossref(doi):
+    try:
+        r = requests.get(CROSSREF_API + doi)
+        if r.status_code != 200:
+            return []
+
+        author_data = r.json()["message"].get("author", [])
+        authors = []
+
+        for a in author_data:
+            given = a.get("given", "")
+            family = a.get("family", "")
+            name = f"{given} {family}".strip()
+            if name:
+                authors.append(name)
+
+        return authors
+    except:
+        return []
+
+# ---------------- SEMANTIC SCHOLAR CITATIONS ----------------
 def get_citation_count(doi):
     if not doi:
         return 0
 
     try:
         r = requests.get(
-            SEMANTIC_API + doi,
+            SEMANTIC_DOI_API + doi,
             params={"fields": "citationCount"}
         )
         if r.status_code != 200:
@@ -89,20 +135,18 @@ def get_citation_count(doi):
     except:
         return 0
 
-
-# ---------------- FETCH FULL WORK ----------------
+# ---------------- GET FULL ORCID WORK ----------------
 def get_full_work(put_code):
-    url = f"{BASE_URL}/{ORCID_ID}/work/{put_code}"
+    url = f"{BASE_ORCID}/{ORCID_ID}/work/{put_code}"
     r = requests.get(url, headers=HEADERS)
     if r.status_code == 200:
         return r.json()
     return None
 
-
-# ---------------- MAIN LOGIC ----------------
+# ---------------- MAIN ----------------
 def get_publications():
 
-    summary_url = f"{BASE_URL}/{ORCID_ID}/works"
+    summary_url = f"{BASE_ORCID}/{ORCID_ID}/works"
     r = requests.get(summary_url, headers=HEADERS)
 
     if r.status_code != 200:
@@ -120,7 +164,6 @@ def get_publications():
 
         put_code = summaries[0].get("put-code")
         full_work = get_full_work(put_code)
-
         if not full_work:
             continue
 
@@ -148,29 +191,34 @@ def get_publications():
                 break
 
         # -------- CLASSIFICATION --------
-        pub_type = None
-        if doi:
-            pub_type = classify_via_crossref(doi)
-
+        pub_type = classify_via_crossref(doi) if doi else None
         if not pub_type:
             pub_type = classify_fallback(full_work)
 
-        # -------- AUTHORS --------
+        # -------- AUTHORS (ORCID → DBLP → Crossref) --------
         authors_list = []
         is_first_author = False
 
+        # 1️⃣ ORCID contributors
         contributors = full_work.get("contributors", {}).get("contributor", [])
-
-        for idx, contributor in enumerate(contributors):
+        for contributor in contributors:
             credit_name = contributor.get("credit-name")
             if credit_name and credit_name.get("value"):
-                name = credit_name["value"]
-                authors_list.append(name)
+                authors_list.append(credit_name["value"])
 
-                if idx == 0:
-                    name_lower = name.lower()
-                    if all(k in name_lower for k in MY_NAME_KEYWORDS):
-                        is_first_author = True
+        # 2️⃣ DBLP fallback
+        if not authors_list and doi:
+            authors_list = get_authors_from_dblp(doi)
+
+        # 3️⃣ Crossref fallback
+        if not authors_list and doi:
+            authors_list = get_authors_from_crossref(doi)
+
+        # 4️⃣ First author detection
+        if authors_list:
+            first_author = authors_list[0].lower()
+            if all(k in first_author for k in MY_NAME_KEYWORDS):
+                is_first_author = True
 
         authors = ", ".join(authors_list) if authors_list else "N/A"
 
@@ -201,7 +249,6 @@ def get_publications():
 
 
 if __name__ == "__main__":
-
     pubs = get_publications()
 
     with open("data/publications.json", "w", encoding="utf-8") as f:
