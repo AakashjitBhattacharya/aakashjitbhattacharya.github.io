@@ -13,13 +13,25 @@ SEMANTIC_SCHOLAR_API = "https://api.semanticscholar.org/graph/v1/paper/search"
 
 
 def map_type(orcid_type):
-    mapping = {
-        "journal-article": "Journal",
-        "conference-paper": "Conference",
-        "book-chapter": "Book Chapter",
-        "patent": "Patent"
-    }
-    return mapping.get(orcid_type, "Conference")
+    if not orcid_type:
+        return "Conference"
+
+    orcid_type = orcid_type.lower()
+
+    if "journal" in orcid_type:
+        return "Journal"
+
+    if "conference" in orcid_type:
+        return "Conference"
+
+    if "book" in orcid_type or "chapter" in orcid_type or "section" in orcid_type:
+        return "Book Chapter"
+
+    if "patent" in orcid_type:
+        return "Patent"
+
+    # Default fallback
+    return "Conference"
 
 
 def get_citation_count(title):
