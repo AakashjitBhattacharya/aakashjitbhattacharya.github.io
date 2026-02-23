@@ -1,5 +1,5 @@
 /* =========================
-   INITIAL LOAD (FIRST TAB ONLY)
+   INITIAL LOAD
 ========================= */
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -7,14 +7,15 @@ document.addEventListener("DOMContentLoaded", function () {
   loadNavbar();
   loadFooter();
 
-  const hasVisited = sessionStorage.getItem("hasVisited");
+  // Always show page immediately (no loader)
+  document.body.classList.add("loaded");
 
-  if (!hasVisited) {
-    sessionStorage.setItem("hasVisited", "true");
-    showLoader();
-  } else {
-    document.body.classList.add("loaded");
-  }
+  // Start typing animations
+  typeEffect();
+  typeQuote();
+
+  // Initialize contact form if present
+  initializeContactForm();
 
 });
 
@@ -47,16 +48,15 @@ function loadNavbar() {
       const navMenu = document.getElementById("nav-menu");
       const overlay = document.getElementById("overlay");
 
+      if (!toggle || !navMenu || !overlay) return;
+
       function toggleMenu() {
         navMenu.classList.toggle("active");
         overlay.classList.toggle("active");
         toggle.classList.toggle("active");
 
-        if (navMenu.classList.contains("active")) {
-          document.body.style.overflow = "hidden";
-        } else {
-          document.body.style.overflow = "";
-        }
+        document.body.style.overflow =
+          navMenu.classList.contains("active") ? "hidden" : "";
       }
 
       function closeMenu() {
@@ -66,11 +66,10 @@ function loadNavbar() {
         document.body.style.overflow = "";
       }
 
-      if (toggle) toggle.addEventListener("click", toggleMenu);
-      if (overlay) overlay.addEventListener("click", closeMenu);
+      toggle.addEventListener("click", toggleMenu);
+      overlay.addEventListener("click", closeMenu);
 
-      const links = navMenu.querySelectorAll("a");
-      links.forEach(link => {
+      navMenu.querySelectorAll("a").forEach(link => {
         link.addEventListener("click", closeMenu);
       });
 
@@ -94,81 +93,7 @@ function loadFooter() {
 
 
 /* =========================
-   SHOW LOADER
-========================= */
-
-function showLoader() {
-
-  fetch("assets/components/loader.html")
-    .then(res => res.text())
-    .then(data => {
-
-      const container = document.getElementById("loader-container");
-      if (!container) return;
-
-      container.innerHTML = data;
-      document.body.classList.remove("loaded");
-
-      startLoader();
-    })
-    .catch(() => {
-      document.body.classList.add("loaded");
-    });
-}
-
-
-/* =========================
-   ADVANCED MEC LOADER
-========================= */
-
-function startLoader() {
-
-  let percent = 0;
-
-  const percentElement = document.getElementById("load-percent");
-  const statusText = document.getElementById("status-text");
-
-  const cloud = document.querySelector(".cloud-node");
-  const mecStations = document.querySelectorAll(".mec-station");
-
-  const interval = setInterval(() => {
-
-    percent++;
-
-    if (percentElement)
-      percentElement.textContent = percent;
-
-    if (percent === 20 && statusText) {
-      statusText.textContent = "Activating MEC Base Stations...";
-      mecStations.forEach(station => station.classList.add("active"));
-    }
-
-    if (percent === 60 && statusText) {
-      statusText.textContent = "Establishing MEC–Cloud Communication...";
-    }
-
-    if (percent === 85 && statusText) {
-      statusText.textContent = "Scaling Cloud Core...";
-      if (cloud) cloud.classList.add("active");
-    }
-
-    if (percent >= 100) {
-      clearInterval(interval);
-
-      if (statusText)
-        statusText.textContent = "Federated MEC System Ready";
-
-      setTimeout(() => {
-        document.body.classList.add("loaded");
-      }, 500);
-    }
-
-  }, 20);
-}
-
-
-/* =========================
-   DOMAIN TYPING (if used elsewhere)
+   DOMAIN TYPING ANIMATION
 ========================= */
 
 const texts = [
@@ -186,7 +111,7 @@ let isDeleting = false;
 function typeEffect() {
 
   const typingElement = document.getElementById("typing");
-  if (!typingElement) return; // stop if not present
+  if (!typingElement) return;
 
   const currentText = texts[textIndex];
 
@@ -213,8 +138,6 @@ function typeEffect() {
   setTimeout(typeEffect, isDeleting ? 40 : 80);
 }
 
-typeEffect();
-
 
 /* =========================
    HERO QUOTE TYPING
@@ -235,8 +158,95 @@ function typeQuote() {
   quoteIndex++;
 
   if (quoteIndex < quoteText.length) {
-    setTimeout(typeQuote, 10);
+    setTimeout(typeQuote, 40);
   }
 }
 
-typeQuote();
+
+/* =========================
+   PROTECTED CONTACT FORM
+========================= */
+
+function initializeContactForm() {
+
+  const form = document.getElementById("contact-form");
+  if (!form) return;
+
+  const startTime = Date.now();
+
+  form.addEventListener("submit", async function(e) {
+
+    e.preventDefault();
+
+    const honeypot = form.querySelector("input[name='_gotcha']");
+    const now = Date.now();
+
+    const button = form.querySelector(".submit-btn");
+    const loader = form.querySelector(".btn-loader");
+    const btnText = form.querySelector(".btn-text");
+    const status = document.getElementById("form-status");
+
+    // Honeypot protection
+    if (honeypot && honeypot.value !== "") {
+      return;
+    }
+
+    // Time-based bot detection (min 3 sec)
+    if ((now - startTime) < 3000) {
+      status.textContent = "Submission too fast. Please try again.";
+      status.style.color = "#ef4444";
+      return;
+    }
+
+    // Rate limiting (1 per 60 sec)
+    const lastSubmit = localStorage.getItem("lastSubmitTime");
+    if (lastSubmit && (now - lastSubmit) < 60000) {
+      status.textContent = "Please wait before sending another message.";
+      status.style.color = "#ef4444";
+      return;
+    }
+
+    loader.style.display = "inline-block";
+    btnText.textContent = "Sending...";
+    button.disabled = true;
+
+    const formData = new FormData(form);
+
+    try {
+
+      const response = await fetch("https://formspree.io/f/xzdakvyp", {
+        method: "POST",
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+
+        localStorage.setItem("lastSubmitTime", now);
+
+        form.reset();
+
+        btnText.textContent = "Sent ✓";
+        status.textContent = "Message sent successfully.";
+        status.style.color = "#22c55e";
+
+        setTimeout(() => {
+          btnText.textContent = "Send Message";
+          status.textContent = "";
+        }, 4000);
+
+      } else {
+        throw new Error();
+      }
+
+    } catch (error) {
+      status.textContent = "Network error. Please try again.";
+      status.style.color = "#ef4444";
+      btnText.textContent = "Send Message";
+    }
+
+    loader.style.display = "none";
+    button.disabled = false;
+
+  });
+}
