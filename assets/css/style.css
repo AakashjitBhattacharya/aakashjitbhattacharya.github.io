@@ -15,6 +15,7 @@ body {
 /* Main content should expand */
 main {
   flex: 1;
+ padding-top: 120px;
 }
 /* =========================
    GLOBAL
@@ -236,12 +237,10 @@ nav a:hover::after {
 ========================= */
 
 .hero {
-  min-height: 100vh;
+  min-height: calc(100vh - 180px); 
   display: flex;
   align-items: center;
   justify-content: center;
-   flex: 1;
-  padding-top: 120px; /* space for fixed navbar */
   text-align: center;
 }
 
