@@ -1,44 +1,47 @@
+// Loader
+window.addEventListener("load", function () {
+  document.body.classList.add("loaded");
+});
+
+// Load publications
 fetch('data/citations.json')
 .then(response => response.json())
 .then(data => {
 
-  document.getElementById("total-citations").textContent = data.total_citations;
+  const citationElem = document.getElementById("total-citations");
+  if (citationElem) {
+    citationElem.textContent = data.total_citations;
+  }
 
   const container = document.getElementById("pub-list");
+  if (!container) return;
+
   container.innerHTML = "";
 
   data.publications.forEach(pub => {
 
     const div = document.createElement("div");
-    div.className = "pub-item";
+    div.className = "card";
 
-    const title = document.createElement("strong");
-    title.textContent = pub.title;
+    div.innerHTML = `
+      <strong>${pub.title}</strong>
+      <div>${pub.year || ""}</div>
+      <button>Download BibTeX</button>
+    `;
 
-    const meta = document.createElement("div");
-    meta.textContent = pub.year;
-
-    const btn = document.createElement("button");
-    btn.textContent = "Download BibTeX";
-
-    btn.onclick = function() {
+    div.querySelector("button").onclick = function() {
       const bib = `
 @article{${pub.title.replace(/\s+/g,'')},
   title={${pub.title}},
-  year={${pub.year}}
+  year={${pub.year || ""}}
 }`;
       const blob = new Blob([bib], { type: "text/plain" });
       const url = URL.createObjectURL(blob);
-
       const a = document.createElement("a");
       a.href = url;
       a.download = "citation.bib";
       a.click();
     };
-
-    div.appendChild(title);
-    div.appendChild(meta);
-    div.appendChild(btn);
 
     container.appendChild(div);
   });
