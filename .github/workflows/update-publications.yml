@@ -2,7 +2,7 @@ name: Update Publications
 
 on:
   schedule:
-    - cron: '0 0 * * 0'   # Weekly (Sunday midnight)
+    - cron: '0 0 * * 0'   # Weekly
   workflow_dispatch:
 
 jobs:
@@ -29,5 +29,5 @@ jobs:
         git config user.name "github-actions"
         git config user.email "actions@github.com"
         git add data/publications.json
-        git commit -m "Auto update publications" || echo "No changes"
+        git commit -m "Auto update publications with citations" || echo "No changes"
         git push
