@@ -72,11 +72,15 @@ function startLoader() {
   const percentElement = document.getElementById("load-percent");
   const statusText = document.getElementById("status-text");
 
-  const iot = document.querySelector(".iot");
-  const fog = document.querySelector(".fog");
-  const edge = document.querySelector(".edge");
-  const mec = document.querySelector(".mec");
-  const cloud = document.querySelector(".cloud");
+  const layers = {
+    iot: document.querySelector(".iot"),
+    fog: document.querySelector(".fog"),
+    edge: document.querySelector(".edge"),
+    mec: document.querySelector(".mec"),
+    cloud: document.querySelector(".cloud")
+  };
+
+  const connections = document.querySelectorAll(".connection");
 
   const interval = setInterval(() => {
 
@@ -85,40 +89,43 @@ function startLoader() {
     if (percentElement)
       percentElement.textContent = percent;
 
-    if (percent === 10 && iot) {
-      iot.classList.add("active");
-      if (statusText) statusText.textContent = "Booting IoT Layer...";
+    if (percent === 10 && layers.iot) {
+      layers.iot.classList.add("active");
+      statusText.textContent = "IoT Devices Activated";
     }
 
-    if (percent === 30 && fog) {
-      fog.classList.add("active");
-      if (statusText) statusText.textContent = "Activating Fog Nodes...";
+    if (percent === 25 && layers.fog) {
+      layers.fog.classList.add("active");
+      connections[2]?.classList.add("active");
+      connections[3]?.classList.add("active");
+      statusText.textContent = "Fog Layer Online";
     }
 
-    if (percent === 50 && edge) {
-      edge.classList.add("active");
-      if (statusText) statusText.textContent = "Deploying Edge Services...";
+    if (percent === 45 && layers.edge) {
+      layers.edge.classList.add("active");
+      connections[0]?.classList.add("active");
+      statusText.textContent = "Edge Nodes Deployed";
     }
 
-    if (percent === 70 && mec) {
-      mec.classList.add("active");
-      if (statusText) statusText.textContent = "Initializing MEC Platform...";
+    if (percent === 65 && layers.mec) {
+      layers.mec.classList.add("active");
+      connections[1]?.classList.add("active");
+      statusText.textContent = "MEC Platform Initializing";
     }
 
-    if (percent === 90 && cloud) {
-      cloud.classList.add("active");
-      if (statusText) statusText.textContent = "Scaling Cloud Infrastructure...";
+    if (percent === 85 && layers.cloud) {
+      layers.cloud.classList.add("active");
+      statusText.textContent = "Cloud Infrastructure Scaling";
     }
 
     if (percent >= 100) {
       clearInterval(interval);
 
-      if (statusText)
-        statusText.textContent = "System Ready.";
+      statusText.textContent = "Federated MEC System Ready";
 
       setTimeout(() => {
         document.body.classList.add("loaded");
-      }, 800);
+      }, 900);
     }
 
   }, 20);
