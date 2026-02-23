@@ -6,7 +6,7 @@ ORCID_ID = "0000-0003-2188-6245"
 ORCID_URL = f"https://pub.orcid.org/v3.0/{ORCID_ID}/works"
 
 HEADERS = {
-    "Accept": "application/json"
+    "Accept": "application/vnd.orcid+json"
 }
 
 SEMANTIC_SCHOLAR_API = "https://api.semanticscholar.org/graph/v1/paper/search"
@@ -30,7 +30,6 @@ def map_type(orcid_type):
     if "patent" in orcid_type:
         return "Patent"
 
-    # Default fallback
     return "Conference"
 
 
@@ -56,52 +55,70 @@ def get_citation_count(title):
 
 def get_publications():
     response = requests.get(ORCID_URL, headers=HEADERS)
+
+    if response.status_code != 200:
+        print("Failed to fetch ORCID data")
+        return []
+
     data = response.json()
+    groups = data.get("group", [])
 
     publications = []
 
-    for group in data.get("group", []):
-        work = group.get("work-summary", [])[0]
+    for group in groups:
+        summaries = group.get("work-summary", [])
+        if not summaries:
+            continue
 
-        title = work.get("title", {}).get("title", {}).get("value", "No Title")
-        pub_date = work.get("publication-date")
-        # Safe year extraction
+        work = summaries[0]
+
+        # -------- TITLE --------
+        title = "No Title"
+        if work.get("title") and work["title"].get("title"):
+            title = work["title"]["title"].get("value", "No Title")
+
+        # -------- TYPE --------
+        work_type = work.get("type", "")
+        pub_type = map_type(work_type)
+
+        # -------- YEAR --------
         year = 0
         pub_date = work.get("publication-date")
-
         if pub_date:
             year_obj = pub_date.get("year")
             if year_obj and year_obj.get("value"):
-            try:
-                year = int(year_obj.get("value"))
-            except:
-                year = 0
-        work_type = work.get("type", "conference-paper")
-        pub_type = map_type(work_type)
+                try:
+                    year = int(year_obj.get("value"))
+                except:
+                    year = 0
 
-        external_ids = work.get("external-ids", {}).get("external-id", [])
+        # -------- VENUE --------
+        venue = "N/A"
+        journal_title = work.get("journal-title")
+        if journal_title and journal_title.get("value"):
+            venue = journal_title.get("value")
+
+        # -------- LINK --------
         link = "#"
-
+        external_ids = work.get("external-ids", {}).get("external-id", [])
         for ext in external_ids:
-            if ext.get("external-id-url"):
+            if ext.get("external-id-url") and ext["external-id-url"].get("value"):
                 link = ext["external-id-url"]["value"]
                 break
 
+        # -------- CITATIONS --------
         print(f"Fetching citations for: {title}")
         citations = get_citation_count(title)
-        time.sleep(1)  # Avoid API rate limit
-
-        journal_title = work.get("journal-title")
-        venue = journal_title.get("value") if journal_title else "N/A"
+        time.sleep(1)
 
         publication = {
-        "title": title,
-        "authors": "Aakashjit Bhattacharya et al.",
-        "venue": venue,
-        "year": year,
-        "type": pub_type,
-        "citations": citations,
-        "link": link
+            "title": title,
+            "authors": "Aakashjit Bhattacharya et al.",
+            "venue": venue,
+            "year": year,
+            "type": pub_type,
+            "citations": citations,
+            "link": link
         }
 
         publications.append(publication)
@@ -119,4 +136,4 @@ if __name__ == "__main__":
     with open("data/publications.json", "w", encoding="utf-8") as f:
         json.dump(output, f, indent=4)
 
-    print("Publications with citations updated successfully.")
+    print("Publications updated successfully.")
