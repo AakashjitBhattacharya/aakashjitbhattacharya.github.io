@@ -5,6 +5,7 @@ import re
 
 ORCID_ID = "0000-0003-2188-6245"
 BASE_URL = "https://pub.orcid.org/v3.0"
+MY_NAME_KEYWORDS = ["aakashjit", "bhattacharya"]
 HEADERS = {"Accept": "application/vnd.orcid+json"}
 
 CROSSREF_API = "https://api.crossref.org/works/"
@@ -93,23 +94,23 @@ def classify_fallback(work):
     return "Conference"
 
 # ---------------- CITATIONS ----------------
-def get_citation_count(title):
-    try:
-        params = {
-            "query": title,
-            "fields": "citationCount",
-            "limit": 1
-        }
-        response = requests.get(SEMANTIC_SCHOLAR_API, params=params)
-        data = response.json()
-
-        if data.get("data"):
-            return data["data"][0].get("citationCount", 0)
-
+def get_citation_count(doi):
+    if not doi:
         return 0
+
+    try:
+        url = f"https://api.semanticscholar.org/graph/v1/paper/DOI:{doi}"
+        params = {"fields": "citationCount"}
+        response = requests.get(url, params=params)
+
+        if response.status_code != 200:
+            return 0
+
+        data = response.json()
+        return data.get("citationCount", 0)
+
     except:
         return 0
-
 
 # ---------------- GET FULL WORK ----------------
 def get_full_work(put_code):
@@ -153,15 +154,22 @@ def get_publications():
         title = clean_html(title)
         # -------- AUTHORS --------
         authors_list = []
-
+        is_first_author = False
         contributors = full_work.get("contributors", {}).get("contributor", [])
 
-        for contributor in contributors:
+        for idx, contributor in enumerate(contributors):
             credit_name = contributor.get("credit-name")
             if credit_name and credit_name.get("value"):
-                authors_list.append(credit_name["value"])
+                name = credit_name["value"]
+                authors_list.append(name)
 
-        authors = ", ".join(authors_list) if authors_list else "N/A"
+                # Check first author
+                if idx == 0:
+                    name_lower = name.lower()
+                    if all(keyword in name_lower for keyword in MY_NAME_KEYWORDS):
+                        is_first_author = True
+
+authors = ", ".join(authors_list) if authors_list else "N/A"
 
         # -------- YEAR --------
         year = 0
@@ -199,7 +207,7 @@ def get_publications():
 
         # -------- CITATIONS --------
         print(f"Fetching citations for: {title}")
-        citations = get_citation_count(title)
+        citations = get_citation_count(doi)
         time.sleep(1)
 
         publication = {
