@@ -587,3 +587,22 @@ nav a:hover::after {
   border-radius: 4px;
   vertical-align: middle;
 }
+.pub-title {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.pub-authors {
+  font-style: italic;
+  margin-bottom: 4px;
+}
+
+.pub-venue {
+  margin-bottom: 4px;
+}
+
+.pub-meta {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 6px;
+}
