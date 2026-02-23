@@ -3,47 +3,38 @@ window.addEventListener("load", function () {
   document.body.classList.add("loaded");
 });
 
-// Load publications
-fetch('data/citations.json')
-.then(response => response.json())
-.then(data => {
+// Typing Animation
+const texts = [
+  "Multi-Access Edge Computing",
+  "Federated MEC",
+  "5G / 6G IoT Systems",
+  "Edge Intelligence",
+  "Real-Time Scheduling"
+];
 
-  const citationElem = document.getElementById("total-citations");
-  if (citationElem) {
-    citationElem.textContent = data.total_citations;
+let count = 0;
+let index = 0;
+let currentText = "";
+let letter = "";
+
+(function type() {
+
+  if (count === texts.length) {
+    count = 0;
   }
 
-  const container = document.getElementById("pub-list");
-  if (!container) return;
+  currentText = texts[count];
+  letter = currentText.slice(0, ++index);
 
-  container.innerHTML = "";
+  document.getElementById("typing").textContent = letter;
 
-  data.publications.forEach(pub => {
+  if (letter.length === currentText.length) {
+    setTimeout(() => {
+      index = 0;
+      count++;
+    }, 1500);
+  }
 
-    const div = document.createElement("div");
-    div.className = "card";
+  setTimeout(type, 80);
 
-    div.innerHTML = `
-      <strong>${pub.title}</strong>
-      <div>${pub.year || ""}</div>
-      <button>Download BibTeX</button>
-    `;
-
-    div.querySelector("button").onclick = function() {
-      const bib = `
-@article{${pub.title.replace(/\s+/g,'')},
-  title={${pub.title}},
-  year={${pub.year || ""}}
-}`;
-      const blob = new Blob([bib], { type: "text/plain" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "citation.bib";
-      a.click();
-    };
-
-    container.appendChild(div);
-  });
-
-});
+})();
