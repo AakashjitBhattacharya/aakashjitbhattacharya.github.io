@@ -2,29 +2,73 @@
    LOAD SHARED COMPONENTS
 ========================= */
 
-// Load shared loader
-fetch("assets/components/loader.html")
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById("loader-container").innerHTML = data;
-    startLoader();   // start after loader is injected
-  });
+document.addEventListener("DOMContentLoaded", function () {
 
-// Load shared navbar
-fetch("assets/components/navbar.html")
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById("navbar").innerHTML = data;
-  });
+  const hasVisited = sessionStorage.getItem("hasVisited");
 
-// Load shared footer
-fetch("assets/components/footer.html")
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById("footer").innerHTML = data;
-    document.getElementById("current-year").textContent =
-      new Date().getFullYear();
-  });
+  // Always load navbar & footer
+  loadNavbar();
+  loadFooter();
+
+  if (!hasVisited) {
+
+    fetch("assets/components/loader.html")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("loader-container").innerHTML = data;
+        startLoader();
+        sessionStorage.setItem("hasVisited", "true");
+      });
+
+  } else {
+    document.body.classList.add("loaded");
+  }
+
+});
+
+/* =========================
+   NAVBAR & FOOTER FUNCTIONS
+========================= */
+
+function loadNavbar() {
+  fetch("assets/components/navbar.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("navbar").innerHTML = data;
+    });
+}
+
+function loadFooter() {
+  fetch("assets/components/footer.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("footer").innerHTML = data;
+      document.getElementById("current-year").textContent =
+        new Date().getFullYear();
+    });
+}
+
+/* =========================
+   NAVBAR & FOOTER FUNCTIONS
+========================= */
+
+function loadNavbar() {
+  fetch("assets/components/navbar.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("navbar").innerHTML = data;
+    });
+}
+
+function loadFooter() {
+  fetch("assets/components/footer.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("footer").innerHTML = data;
+      document.getElementById("current-year").textContent =
+        new Date().getFullYear();
+    });
+}
 /* =========================
    LOADER FUNCTION
 ========================= */
