@@ -2,32 +2,28 @@ name: Update Publications
 
 on:
   schedule:
-    - cron: '0 0 * * 0'   # Weekly
+    - cron: '0 0 * * 0'
   workflow_dispatch:
 
 jobs:
   update-publications:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
+    - uses: actions/setup-python@v4
       with:
         python-version: '3.x'
 
-    - name: Install dependencies
-      run: pip install requests
+    - run: pip install requests
 
-    - name: Run update script
-      run: python scripts/update_publications.py
+    - run: python scripts/update_publications.py
 
     - name: Commit changes
-      run: |
-        git config user.name "github-actions"
-        git config user.email "actions@github.com"
-        git add data/publications.json
-        git commit -m "Auto update publications with citations" || echo "No changes"
-        git push
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: Auto update publications with citations
+        file_pattern: data/publications.json
