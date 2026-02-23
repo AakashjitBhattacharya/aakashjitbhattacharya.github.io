@@ -217,6 +217,7 @@ authors = ", ".join(authors_list) if authors_list else "N/A"
             "year": year,
             "type": pub_type,
             "citations": citations,
+            "is_first_author": is_first_author,
             "link": link
         }
 
