@@ -1,35 +1,22 @@
 /* =========================
-   LOAD SHARED COMPONENTS
+   INITIAL LOAD
 ========================= */
 
 document.addEventListener("DOMContentLoaded", function () {
 
-  const hasVisited = sessionStorage.getItem("hasVisited");
-
   loadNavbar();
   loadFooter();
 
+  const hasVisited = sessionStorage.getItem("hasVisited");
+
   if (!hasVisited) {
-
-    fetch("assets/components/loader.html")
-      .then(res => res.text())
-      .then(data => {
-        const container = document.getElementById("loader-container");
-        if (!container) return;
-
-        container.innerHTML = data;
-        startLoader();
-        sessionStorage.setItem("hasVisited", "true");
-      })
-      .catch(() => {
-        // If loader fails, show page anyway
-        document.body.classList.add("loaded");
-      });
-
+    showLoader(null);
+    sessionStorage.setItem("hasVisited", "true");
   } else {
     document.body.classList.add("loaded");
   }
 
+  enablePageTransitions();
 });
 
 
@@ -62,10 +49,35 @@ function loadFooter() {
 
 
 /* =========================
-   ADVANCED LOADER FUNCTION
+   LOADER DISPLAY HANDLER
 ========================= */
 
-function startLoader() {
+function showLoader(callback) {
+
+  fetch("assets/components/loader.html")
+    .then(res => res.text())
+    .then(data => {
+
+      const container = document.getElementById("loader-container");
+      if (!container) return;
+
+      container.innerHTML = data;
+      document.body.classList.remove("loaded");
+
+      startLoader(callback);
+    })
+    .catch(() => {
+      document.body.classList.add("loaded");
+      if (callback) callback();
+    });
+}
+
+
+/* =========================
+   ADVANCED MEC LOADER
+========================= */
+
+function startLoader(callback) {
 
   let percent = 0;
 
@@ -78,29 +90,80 @@ function startLoader() {
   const interval = setInterval(() => {
 
     percent++;
-    if (percentElement) percentElement.textContent = percent;
+
+    if (percentElement)
+      percentElement.textContent = percent;
 
     if (percent === 20) {
-      statusText.textContent = "Activating MEC Base Stations...";
+      if (statusText)
+        statusText.textContent = "Activating MEC Base Stations...";
       mecStations.forEach(station => station.classList.add("active"));
     }
 
     if (percent === 60) {
-      statusText.textContent = "Establishing MEC–Cloud Communication...";
+      if (statusText)
+        statusText.textContent = "Establishing MEC–Cloud Communication...";
     }
 
     if (percent === 85) {
-      statusText.textContent = "Scaling Cloud Core...";
-      if (cloud) cloud.classList.add("active");
+      if (statusText)
+        statusText.textContent = "Scaling Cloud Core...";
+      if (cloud)
+        cloud.classList.add("active");
     }
 
     if (percent >= 100) {
       clearInterval(interval);
-      statusText.textContent = "Federated MEC System Ready";
 
-      document.body.classList.add("loaded");
+      if (statusText)
+        statusText.textContent = "Federated MEC System Ready";
+
+      setTimeout(() => {
+
+        document.body.classList.add("loaded");
+
+        if (callback)
+          callback();
+
+      }, 500);
+    }
 
   }, 20);
+}
+
+
+/* =========================
+   PAGE TRANSITION CONTROL
+========================= */
+
+function enablePageTransitions() {
+
+  document.addEventListener("click", function (e) {
+
+    const link = e.target.closest("a");
+    if (!link) return;
+
+    const url = link.getAttribute("href");
+
+    if (!url) return;
+
+    // Ignore external links, anchors, mail, tel
+    if (
+      url.startsWith("http") ||
+      url.startsWith("#") ||
+      url.startsWith("mailto:") ||
+      url.startsWith("tel:")
+    ) {
+      return;
+    }
+
+    e.preventDefault();
+
+    showLoader(function () {
+      window.location.href = url;
+    });
+
+  });
 }
 
 
