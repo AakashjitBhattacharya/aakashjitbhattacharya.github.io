@@ -5,11 +5,12 @@ import re
 
 ORCID_ID = "0000-0003-2188-6245"
 BASE_URL = "https://pub.orcid.org/v3.0"
-MY_NAME_KEYWORDS = ["aakashjit", "bhattacharya"]
 HEADERS = {"Accept": "application/vnd.orcid+json"}
 
 CROSSREF_API = "https://api.crossref.org/works/"
-SEMANTIC_SCHOLAR_API = "https://api.semanticscholar.org/graph/v1/paper/search"
+SEMANTIC_API = "https://api.semanticscholar.org/graph/v1/paper/DOI:"
+
+MY_NAME_KEYWORDS = ["aakashjit", "bhattacharya"]
 
 
 # ---------------- CLEAN HTML ----------------
@@ -22,33 +23,22 @@ def clean_html(text):
 # ---------------- CROSSREF CLASSIFICATION ----------------
 def classify_via_crossref(doi):
     try:
-        response = requests.get(CROSSREF_API + doi)
-        if response.status_code != 200:
+        r = requests.get(CROSSREF_API + doi)
+        if r.status_code != 200:
             return None
 
-        data = response.json()
-        work_type = data["message"].get("type", "").lower()
+        work_type = r.json()["message"].get("type", "").lower()
 
-        # -------- PREPRINT --------
         if "posted-content" in work_type:
             return "Preprint"
-
-        # -------- JOURNAL --------
         if "journal-article" in work_type:
             return "Journal"
-
-        # -------- CONFERENCE --------
         if "proceedings-article" in work_type:
             return "Conference"
-
-        # -------- BOOK CHAPTER --------
         if "book-chapter" in work_type:
             return "Book Chapter"
-
         if "book" in work_type:
             return "Book Chapter"
-
-        # -------- PATENT --------
         if "patent" in work_type:
             return "Patent"
 
@@ -61,89 +51,76 @@ def classify_via_crossref(doi):
 def classify_fallback(work):
     work_type = (work.get("type") or "").lower()
 
-    # -------- PREPRINT --------
     if "preprint" in work_type:
         return "Preprint"
-
-    # -------- PATENT --------
     if "patent" in work_type:
         return "Patent"
-
-    # -------- BOOK --------
     if "book" in work_type:
         return "Book Chapter"
-
-    # -------- CONFERENCE --------
     if "conference" in work_type:
         return "Conference"
-
-    # -------- JOURNAL --------
     if "journal" in work_type:
         return "Journal"
 
-    # -------- Check journal-title for arXiv etc --------
     journal_title = work.get("journal-title")
     if journal_title and journal_title.get("value"):
-        venue_name = journal_title.get("value").lower()
-
-        if "arxiv" in venue_name or "ssrn" in venue_name or "techrxiv" in venue_name:
+        venue = journal_title.get("value").lower()
+        if "arxiv" in venue or "ssrn" in venue or "techrxiv" in venue:
             return "Preprint"
-
         return "Journal"
 
     return "Conference"
 
-# ---------------- CITATIONS ----------------
+
+# ---------------- CITATIONS VIA DOI ----------------
 def get_citation_count(doi):
     if not doi:
         return 0
 
     try:
-        url = f"https://api.semanticscholar.org/graph/v1/paper/DOI:{doi}"
-        params = {"fields": "citationCount"}
-        response = requests.get(url, params=params)
-
-        if response.status_code != 200:
+        r = requests.get(
+            SEMANTIC_API + doi,
+            params={"fields": "citationCount"}
+        )
+        if r.status_code != 200:
             return 0
 
-        data = response.json()
-        return data.get("citationCount", 0)
-
+        return r.json().get("citationCount", 0)
     except:
         return 0
 
-# ---------------- GET FULL WORK ----------------
+
+# ---------------- FETCH FULL WORK ----------------
 def get_full_work(put_code):
     url = f"{BASE_URL}/{ORCID_ID}/work/{put_code}"
-    response = requests.get(url, headers=HEADERS)
-    if response.status_code == 200:
-        return response.json()
+    r = requests.get(url, headers=HEADERS)
+    if r.status_code == 200:
+        return r.json()
     return None
 
 
-# ---------------- MAIN FUNCTION ----------------
+# ---------------- MAIN LOGIC ----------------
 def get_publications():
-    summary_url = f"{BASE_URL}/{ORCID_ID}/works"
-    response = requests.get(summary_url, headers=HEADERS)
 
-    if response.status_code != 200:
+    summary_url = f"{BASE_URL}/{ORCID_ID}/works"
+    r = requests.get(summary_url, headers=HEADERS)
+
+    if r.status_code != 200:
         print("Failed to fetch ORCID works")
         return []
 
-    data = response.json()
-    groups = data.get("group", [])
-
+    groups = r.json().get("group", [])
     publications = []
 
     for group in groups:
+
         summaries = group.get("work-summary", [])
         if not summaries:
             continue
 
-        summary = summaries[0]
-        put_code = summary.get("put-code")
-
+        put_code = summaries[0].get("put-code")
         full_work = get_full_work(put_code)
+
         if not full_work:
             continue
 
@@ -152,24 +129,6 @@ def get_publications():
         if full_work.get("title") and full_work["title"].get("title"):
             title = full_work["title"]["title"].get("value", "")
         title = clean_html(title)
-        # -------- AUTHORS --------
-        authors_list = []
-        is_first_author = False
-        contributors = full_work.get("contributors", {}).get("contributor", [])
-
-        for idx, contributor in enumerate(contributors):
-            credit_name = contributor.get("credit-name")
-            if credit_name and credit_name.get("value"):
-                name = credit_name["value"]
-                authors_list.append(name)
-
-                # Check first author
-                if idx == 0:
-                    name_lower = name.lower()
-                    if all(keyword in name_lower for keyword in MY_NAME_KEYWORDS):
-                        is_first_author = True
-
-authors = ", ".join(authors_list) if authors_list else "N/A"
 
         # -------- YEAR --------
         year = 0
@@ -182,8 +141,8 @@ authors = ", ".join(authors_list) if authors_list else "N/A"
 
         # -------- DOI --------
         doi = None
-        external_ids = full_work.get("external-ids", {}).get("external-id", [])
-        for ext in external_ids:
+        ext_ids = full_work.get("external-ids", {}).get("external-id", [])
+        for ext in ext_ids:
             if ext.get("external-id-type", "").lower() == "doi":
                 doi = ext.get("external-id-value")
                 break
@@ -196,17 +155,32 @@ authors = ", ".join(authors_list) if authors_list else "N/A"
         if not pub_type:
             pub_type = classify_fallback(full_work)
 
+        # -------- AUTHORS --------
+        authors_list = []
+        is_first_author = False
+
+        contributors = full_work.get("contributors", {}).get("contributor", [])
+
+        for idx, contributor in enumerate(contributors):
+            credit_name = contributor.get("credit-name")
+            if credit_name and credit_name.get("value"):
+                name = credit_name["value"]
+                authors_list.append(name)
+
+                if idx == 0:
+                    name_lower = name.lower()
+                    if all(k in name_lower for k in MY_NAME_KEYWORDS):
+                        is_first_author = True
+
+        authors = ", ".join(authors_list) if authors_list else "N/A"
+
         # -------- VENUE --------
         venue = "N/A"
         journal_title = full_work.get("journal-title")
         if journal_title and journal_title.get("value"):
             venue = journal_title.get("value")
 
-        # -------- LINK --------
-        link = f"https://doi.org/{doi}" if doi else "#"
-
         # -------- CITATIONS --------
-        print(f"Fetching citations for: {title}")
         citations = get_citation_count(doi)
         time.sleep(1)
 
@@ -217,8 +191,8 @@ authors = ", ".join(authors_list) if authors_list else "N/A"
             "year": year,
             "type": pub_type,
             "citations": citations,
-            "is_first_author": is_first_author,
-            "link": link
+            "link": f"https://doi.org/{doi}" if doi else "#",
+            "is_first_author": is_first_author
         }
 
         publications.append(publication)
@@ -227,13 +201,10 @@ authors = ", ".join(authors_list) if authors_list else "N/A"
 
 
 if __name__ == "__main__":
+
     pubs = get_publications()
 
-    output = {
-        "publications": pubs
-    }
-
     with open("data/publications.json", "w", encoding="utf-8") as f:
-        json.dump(output, f, indent=4)
+        json.dump({"publications": pubs}, f, indent=4)
 
     print("Publications updated successfully.")
