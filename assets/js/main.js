@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const hasVisited = sessionStorage.getItem("hasVisited");
 
-  // Always load navbar & footer
   loadNavbar();
   loadFooter();
 
@@ -16,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then(res => res.text())
       .then(data => {
         document.getElementById("loader-container").innerHTML = data;
-        startLoader();
+        startLoader();  // <-- THIS calls the function
         sessionStorage.setItem("hasVisited", "true");
       });
 
@@ -25,7 +24,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 });
-
 /* =========================
    NAVBAR & FOOTER FUNCTIONS
 ========================= */
@@ -48,47 +46,49 @@ function loadFooter() {
     });
 }
 
-/* =========================
-   NAVBAR & FOOTER FUNCTIONS
-========================= */
-
-function loadNavbar() {
-  fetch("assets/components/navbar.html")
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById("navbar").innerHTML = data;
-    });
-}
-
-function loadFooter() {
-  fetch("assets/components/footer.html")
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById("footer").innerHTML = data;
-      document.getElementById("current-year").textContent =
-        new Date().getFullYear();
-    });
-}
 /* =========================
    LOADER FUNCTION
 ========================= */
 
 function startLoader() {
+
   let percent = 0;
   const percentElement = document.getElementById("load-percent");
+  const statusText = document.getElementById("status-text");
+
+  const iot = document.querySelector(".iot");
+  const edge = document.querySelector(".edge");
+  const cloud = document.querySelector(".cloud");
 
   const interval = setInterval(() => {
+
     percent++;
     percentElement.textContent = percent;
+
+    if (percent === 20) {
+      iot.classList.add("active");
+      statusText.textContent = "IoT Devices Online...";
+    }
+
+    if (percent === 50) {
+      edge.classList.add("active");
+      statusText.textContent = "Deploying Edge Services...";
+    }
+
+    if (percent === 80) {
+      cloud.classList.add("active");
+      statusText.textContent = "Scaling Cloud Infrastructure...";
+    }
 
     if (percent >= 100) {
       clearInterval(interval);
 
       setTimeout(() => {
         document.body.classList.add("loaded");
-      }, 300);
+      }, 800);
     }
-  }, 20);
+
+  }, 25);
 }
 
 /* =========================
