@@ -65,9 +65,17 @@ def get_publications():
 
         title = work.get("title", {}).get("title", {}).get("value", "No Title")
         pub_date = work.get("publication-date")
+        # Safe year extraction
         year = 0
-        if pub_date and pub_date.get("year") and pub_date["year"].get("value"):
-            year = int(pub_date["year"]["value"])
+        pub_date = work.get("publication-date")
+
+        if pub_date:
+            year_obj = pub_date.get("year")
+            if year_obj and year_obj.get("value"):
+            try:
+                year = int(year_obj.get("value"))
+            except:
+                year = 0
         work_type = work.get("type", "conference-paper")
         pub_type = map_type(work_type)
 
@@ -90,7 +98,7 @@ def get_publications():
         "title": title,
         "authors": "Aakashjit Bhattacharya et al.",
         "venue": venue,
-        "year": int(year) if year.isdigit() else 0,
+        "year": year,
         "type": pub_type,
         "citations": citations,
         "link": link
