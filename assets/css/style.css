@@ -790,3 +790,22 @@ nav a:hover::after {
     opacity: 0;
   }
 }
+
+.dblp-link {
+    position: relative;
+}
+
+.dblp-link::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    left: 0;
+    bottom: -3px;
+    background-color: #1e90ff;
+    transition: width 0.3s ease;
+}
+
+.dblp-link:hover::after {
+    width: 100%;
+}
