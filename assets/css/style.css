@@ -737,9 +737,9 @@ position: relative; /* add this line */
 .profile-icon.facebook:hover { color: #1877F2; border-color: #1877F2; }
 .profile-icon.whatsapp:hover { color: #25D366; border-color: #25D366; }
 .profile-icon.scholar:hover { 
-  color: #a78bfa; 
-  border-color: #a78bfa; 
-  box-shadow: 0 8px 25px rgba(167,139,250,0.35);
+  color: #8b5cf6; 
+  border-color: #8b5cf6; 
+  box-shadow: 0 8px 25px rgba(139,92,246,0.4);
 }
 .profile-icon.dblp:hover { 
   color: #ffcc00; 
