@@ -716,7 +716,11 @@ nav a:hover::after {
 .profile-icon.facebook:hover { color: #1877F2; border-color: #1877F2; }
 .profile-icon.whatsapp:hover { color: #25D366; border-color: #25D366; }
 .profile-icon.scholar:hover { color: #4285F4; border-color: #4285F4; }
-.profile-icon.dblp:hover { color: #f3f4f6; border-color: #FFFF33; }
+.profile-icon.dblp:hover { 
+  color: #ffcc00; 
+  border-color: #ffcc00; 
+  box-shadow: 0 8px 25px rgba(255,204,0,0.35);
+}
 
 .profile-icon:nth-child(1) { animation-delay: 0.1s; }
 .profile-icon:nth-child(2) { animation-delay: 0.2s; }
