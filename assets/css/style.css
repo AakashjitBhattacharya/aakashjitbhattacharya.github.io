@@ -646,21 +646,91 @@ nav a:hover::after {
   background-color: #2e6da4;
 }
 /* =========================
-   PROFILE LINKS (FIXED)
+   PREMIUM PROFILE ICONS
 ========================= */
 
+.profile-links {
+  margin-top: 35px;
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
 .profile-icon {
-  width: 60px;
-  height: 60px;
+  position: relative;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   background: #111827;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+  transition: 0.4s ease;
 }
 
 .profile-icon svg {
   width: 28px;
   height: 28px;
+  z-index: 2;
+}
+
+/* Rotating gradient ring */
+.profile-icon .ring {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: conic-gradient(#38bdf8, #6366f1, #38bdf8);
+  animation: rotateRing 4s linear infinite;
+  z-index: 1;
+  opacity: 0;
+  transition: 0.4s;
+}
+
+@keyframes rotateRing {
+  to { transform: rotate(360deg); }
+}
+
+.profile-icon:hover .ring {
+  opacity: 1;
+}
+
+/* Hover lift */
+.profile-icon:hover {
+  transform: translateY(-6px);
+}
+
+/* Tooltip */
+.profile-icon::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: -30px;
+  background: #1f2937;
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 6px;
+  opacity: 0;
+  transition: 0.3s;
+  white-space: nowrap;
+}
+
+.profile-icon:hover::after {
+  opacity: 1;
+  bottom: -35px;
+}
+
+/* Scholar citation badge */
+.profile-icon .badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #38bdf8;
+  color: #0f172a;
+  font-size: 11px;
+  padding: 3px 6px;
+  border-radius: 12px;
+  font-weight: bold;
+  z-index: 3;
 }
