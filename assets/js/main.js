@@ -1,6 +1,12 @@
 /* =========================
    INITIAL LOAD
 ========================= */
+// Inject common head meta + favicon
+fetch("assets/includes/head.html")
+  .then(res => res.text())
+  .then(data => {
+    document.head.insertAdjacentHTML("beforeend", data);
+  });
 
 document.addEventListener("DOMContentLoaded", function () {
 
