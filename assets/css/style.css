@@ -670,6 +670,9 @@ nav a:hover::after {
   color: #ffffff;
   transition: all 0.35s ease;
   text-decoration: none;
+  opacity: 0;
+  transform: translateY(15px);
+  animation: iconFadeUp 0.6s ease forwards;
 }
 
 .profile-icon svg {
@@ -722,4 +725,38 @@ nav a:hover::after {
   padding: 3px 6px;
   border-radius: 10px;
   font-weight: bold;
+}
+.profile-icon.linkedin:hover { color: #0A66C2; border-color: #0A66C2; }
+.profile-icon.facebook:hover { color: #1877F2; border-color: #1877F2; }
+.profile-icon.whatsapp:hover { color: #25D366; border-color: #25D366; }
+.profile-icon.scholar:hover { color: #4285F4; border-color: #4285F4; }
+.profile-icon.dblp:hover { color: #f3f4f6; border-color: #f3f4f6; }
+
+.profile-icon:nth-child(1) { animation-delay: 0.1s; }
+.profile-icon:nth-child(2) { animation-delay: 0.2s; }
+.profile-icon:nth-child(3) { animation-delay: 0.3s; }
+.profile-icon:nth-child(4) { animation-delay: 0.4s; }
+.profile-icon:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes iconFadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.profile-icon::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(56,189,248,0.2);
+  transform: scale(0);
+  transition: 0.4s ease;
+  z-index: 0;
+}
+
+.profile-icon:hover::before {
+  transform: scale(1.2);
+  opacity: 0;
 }
