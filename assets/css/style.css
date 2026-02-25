@@ -713,19 +713,6 @@ nav a:hover::after {
   opacity: 1;
   bottom: -38px;
 }
-
-/* Scholar badge */
-.badge {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  background: #38bdf8;
-  color: #0f172a;
-  font-size: 11px;
-  padding: 3px 6px;
-  border-radius: 10px;
-  font-weight: bold;
-}
 .profile-icon.linkedin:hover { color: #0A66C2; border-color: #0A66C2; }
 .profile-icon.facebook:hover { color: #1877F2; border-color: #1877F2; }
 .profile-icon.whatsapp:hover { color: #25D366; border-color: #25D366; }
