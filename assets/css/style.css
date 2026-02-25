@@ -224,7 +224,7 @@ nav a:hover::after {
    PROFILE PHOTO
 ========================= */
 
-/*.photo-wrapper {
+.photo-wrapper {
   padding: 6px;
   border-radius: 50%;
   background: linear-gradient(135deg, #38bdf8, #6366f1);
@@ -268,58 +268,7 @@ nav a:hover::after {
   margin: auto;
   color: #94a3b8;
   font-size: 14px;
-}*/
-.photo-wrapper {
-  position: relative;
-  padding: 6px;
-  border-radius: 50%;
-  display: inline-block;
 }
-
-/* Base glow layer */
-.photo-wrapper::before {
-  content: "";
-  position: absolute;
-  inset: -15px;
-  border-radius: 50%;
-  background: radial-gradient(circle, 
-      rgba(56,189,248,0.35) 0%, 
-      rgba(56,189,248,0.15) 40%, 
-      transparent 70%);
-  filter: blur(15px);
-  z-index: 0;
-  animation: pulseGlow 4s ease-in-out infinite;
-}
-
-/* Soft rotating ring */
-.photo-wrapper::after {
-  content: "";
-  position: absolute;
-  inset: -8px;
-  border-radius: 50%;
-  border: 2px solid rgba(56,189,248,0.4);
-  animation: rotateBorder 8s linear infinite;
-  z-index: 1;
-}
-
-.profile-photo {
-  position: relative;
-  z-index: 2;
-  width: 260px;
-  height: 260px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-@keyframes pulseGlow {
-  0%, 100% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.05); opacity: 1; }
-}
-
-@keyframes rotateBorder {
-  to { transform: rotate(360deg); }
-}
-
 /* =========================
    PREMIUM MOBILE NAVIGATION
 ========================= */
