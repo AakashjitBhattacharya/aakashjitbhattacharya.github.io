@@ -257,12 +257,22 @@ function initializeContactForm() {
 fetch("data/citations.json")
   .then(res => res.json())
   .then(data => {
+
     const badge = document.getElementById("scholar-badge");
-    if (badge && data.total_citations) {
-      badge.textContent = data.total_citations;
-    }
-  })
-  .catch(() => {
-    const badge = document.getElementById("scholar-badge");
-    if (badge) badge.style.display = "none";
+    if (!badge || !data.total_citations) return;
+
+    let start = 0;
+    const end = data.total_citations;
+    const duration = 1000;
+    const step = Math.ceil(end / (duration / 20));
+
+    const counter = setInterval(() => {
+      start += step;
+      if (start >= end) {
+        start = end;
+        clearInterval(counter);
+      }
+      badge.textContent = start;
+    }, 20);
+
   });
