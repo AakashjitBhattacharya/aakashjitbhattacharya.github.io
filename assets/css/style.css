@@ -649,42 +649,18 @@ nav a:hover::after {
    PROFILE LINKS (FIXED)
 ========================= */
 
-.profile-links {
-  margin-top: 30px;
-  display: flex;
-  justify-content: center;
-  gap: 22px;
-  flex-wrap: wrap;
-}
-
 .profile-icon {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  overflow: hidden;
+  background: #111827;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #111827;
   transition: all 0.3s ease;
 }
 
-.profile-icon img {
-  width: 70%;
-  height: 70%;
-  object-fit: contain;
-  display: block;
+.profile-icon svg {
+  width: 28px;
+  height: 28px;
 }
-
-/* Hover effects */
-
-.profile-icon:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(56,189,248,0.4);
-}
-
-.profile-icon.linkedin:hover { background: #0A66C2; }
-.profile-icon.facebook:hover { background: #1877F2; }
-.profile-icon.whatsapp:hover { background: #25D366; }
-.profile-icon.scholar:hover { background: #4285F4; }
-.profile-icon.dblp:hover { background: #f3f4f6; }
