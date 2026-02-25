@@ -224,7 +224,7 @@ nav a:hover::after {
    PROFILE PHOTO
 ========================= */
 
-.photo-wrapper {
+/*.photo-wrapper {
   padding: 6px;
   border-radius: 50%;
   background: linear-gradient(135deg, #38bdf8, #6366f1);
@@ -268,6 +268,56 @@ nav a:hover::after {
   margin: auto;
   color: #94a3b8;
   font-size: 14px;
+}*/
+.photo-wrapper {
+  position: relative;
+  padding: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Base glow layer */
+.photo-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: -15px;
+  border-radius: 50%;
+  background: radial-gradient(circle, 
+      rgba(56,189,248,0.35) 0%, 
+      rgba(56,189,248,0.15) 40%, 
+      transparent 70%);
+  filter: blur(15px);
+  z-index: 0;
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+
+/* Soft rotating ring */
+.photo-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid rgba(56,189,248,0.4);
+  animation: rotateBorder 8s linear infinite;
+  z-index: 1;
+}
+
+.profile-photo {
+  position: relative;
+  z-index: 2;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+}
+
+@keyframes rotateBorder {
+  to { transform: rotate(360deg); }
 }
 
 /* =========================
@@ -790,4 +840,45 @@ nav a:hover::after {
   100% {
     opacity: 0;
   }
+}
+/* =========================
+   RESEARCH ORBIT
+========================= */
+
+.research-orbit {
+  position: relative;
+  margin: 60px auto;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  animation: spinOrbit 20s linear infinite;
+}
+
+.orbit-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  color: #38bdf8;
+  font-size: 18px;
+}
+
+.orbit-item {
+  position: absolute;
+  width: 100px;
+  text-align: center;
+  font-size: 12px;
+  color: #cbd5e1;
+}
+
+/* Position items */
+.orbit-item:nth-child(2) { top: 0; left: 50%; transform: translateX(-50%); }
+.orbit-item:nth-child(3) { right: 0; top: 50%; transform: translateY(-50%); }
+.orbit-item:nth-child(4) { bottom: 0; left: 50%; transform: translateX(-50%); }
+.orbit-item:nth-child(5) { left: 0; top: 50%; transform: translateY(-50%); }
+.orbit-item:nth-child(6) { top: 20%; left: 80%; }
+
+@keyframes spinOrbit {
+  to { transform: rotate(360deg); }
 }
