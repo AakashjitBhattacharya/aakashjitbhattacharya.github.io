@@ -736,7 +736,11 @@ position: relative; /* add this line */
 .profile-icon.linkedin:hover { color: #0A66C2; border-color: #0A66C2; }
 .profile-icon.facebook:hover { color: #1877F2; border-color: #1877F2; }
 .profile-icon.whatsapp:hover { color: #25D366; border-color: #25D366; }
-.profile-icon.scholar:hover { color: #4285F4; border-color: #4285F4; }
+.profile-icon.scholar:hover { 
+  color: #a78bfa; 
+  border-color: #a78bfa; 
+  box-shadow: 0 8px 25px rgba(167,139,250,0.35);
+}
 .profile-icon.dblp:hover { 
   color: #ffcc00; 
   border-color: #ffcc00; 
