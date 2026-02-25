@@ -646,47 +646,42 @@ nav a:hover::after {
   background-color: #2e6da4;
 }
 /* =========================
-   PROFILE LINKS (HOME)
+   PROFILE LINKS (FIXED)
 ========================= */
 
 .profile-links {
   margin-top: 30px;
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 22px;
   flex-wrap: wrap;
 }
 
 .profile-icon {
-  width: 42px;
-  height: 42px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
   background: #111827;
   transition: all 0.3s ease;
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
 }
 
 .profile-icon img {
-  width: 22px;
-  height: 22px;
-  filter: brightness(0.9);
-  transition: 0.3s ease;
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+  display: block;
 }
 
 /* Hover effects */
+
 .profile-icon:hover {
-  transform: translateY(-4px);
+  transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(56,189,248,0.4);
 }
-
-.profile-icon:hover img {
-  filter: brightness(1.2);
-}
-
-/* Brand hover colors */
 
 .profile-icon.linkedin:hover { background: #0A66C2; }
 .profile-icon.facebook:hover { background: #1877F2; }
