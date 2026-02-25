@@ -250,3 +250,19 @@ function initializeContactForm() {
 
   });
 }
+/* =========================
+   SCHOLAR BADGE FETCH
+========================= */
+
+fetch("data/citations.json")
+  .then(res => res.json())
+  .then(data => {
+    const badge = document.getElementById("scholar-badge");
+    if (badge && data.total_citations) {
+      badge.textContent = data.total_citations;
+    }
+  })
+  .catch(() => {
+    const badge = document.getElementById("scholar-badge");
+    if (badge) badge.style.display = "none";
+  });
