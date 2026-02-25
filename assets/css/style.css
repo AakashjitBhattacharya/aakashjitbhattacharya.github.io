@@ -646,7 +646,7 @@ nav a:hover::after {
   background-color: #2e6da4;
 }
 /* =========================
-   PREMIUM PROFILE ICONS
+   CLEAN PREMIUM PROFILE ICONS
 ========================= */
 
 .profile-links {
@@ -659,78 +659,67 @@ nav a:hover::after {
 
 .profile-icon {
   position: relative;
-  width: 70px;
-  height: 70px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.15);
   background: #111827;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  overflow: hidden;
-  transition: 0.4s ease;
+  color: #ffffff;
+  transition: all 0.35s ease;
+  text-decoration: none;
 }
 
 .profile-icon svg {
-  width: 28px;
-  height: 28px;
-  z-index: 2;
+  width: 26px;
+  height: 26px;
 }
 
-/* Rotating gradient ring */
-.profile-icon .ring {
-  position: absolute;
-  inset: -3px;
-  border-radius: 50%;
-  background: conic-gradient(#38bdf8, #6366f1, #38bdf8);
-  animation: rotateRing 4s linear infinite;
-  z-index: 1;
-  opacity: 0;
-  transition: 0.4s;
+/* DBLP text */
+.dblp-text {
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
 }
 
-@keyframes rotateRing {
-  to { transform: rotate(360deg); }
-}
-
-.profile-icon:hover .ring {
-  opacity: 1;
-}
-
-/* Hover lift */
+/* Hover effect */
 .profile-icon:hover {
   transform: translateY(-6px);
+  border-color: #38bdf8;
+  box-shadow: 0 8px 25px rgba(56,189,248,0.35);
+  color: #38bdf8;
 }
 
 /* Tooltip */
 .profile-icon::after {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: -30px;
+  bottom: -32px;
   background: #1f2937;
-  padding: 4px 10px;
+  padding: 5px 10px;
   font-size: 12px;
   border-radius: 6px;
   opacity: 0;
-  transition: 0.3s;
+  transition: 0.3s ease;
   white-space: nowrap;
 }
 
 .profile-icon:hover::after {
   opacity: 1;
-  bottom: -35px;
+  bottom: -38px;
 }
 
-/* Scholar citation badge */
-.profile-icon .badge {
+/* Scholar badge */
+.badge {
   position: absolute;
-  top: -5px;
-  right: -5px;
+  top: -6px;
+  right: -6px;
   background: #38bdf8;
   color: #0f172a;
   font-size: 11px;
   padding: 3px 6px;
-  border-radius: 12px;
+  border-radius: 10px;
   font-weight: bold;
-  z-index: 3;
 }
