@@ -149,38 +149,46 @@ function typeEffect() {
    HERO QUOTE TYPING
 ========================= */
 
-const quoteText = "I build distributed systems that cannot afford to miss deadlines.";
+const quotes = [
+  "I work where time matters, and delays are not an option.",
+  "At the edge of networks, every moment carries weight.",
+  "I design systems that respond when it matters most.",
+  "Between data and decision, there is only time.",
+  "Not all systems can wait — some must act.",
+  "I build for moments where timing defines outcome.",
+  "Where computation meets urgency, I find purpose.",
+  "In distributed systems, even a second can change everything."
+];
 
-let quoteIndex = 0;
-let quoteDeleting = false;
+let qIndex = 0;
+let charIndex = 0;
 
 function typeQuote() {
 
   const element = document.getElementById("typing-quote");
   if (!element) return;
 
-  if (!quoteDeleting) {
-    // Typing
-    element.textContent = quoteText.substring(0, quoteIndex + 1);
-    quoteIndex++;
+  const current = quotes[qIndex];
 
-    if (quoteIndex === quoteText.length) {
-      // Pause before deleting
-      setTimeout(() => quoteDeleting = true, 2000);
-    }
+  // Typing
+  element.textContent = current.substring(0, charIndex + 1);
+  charIndex++;
 
+  if (charIndex < current.length) {
+    setTimeout(typeQuote, 60);
   } else {
-    // Deleting
-    element.textContent = quoteText.substring(0, quoteIndex - 1);
-    quoteIndex--;
+    // Pause for 3 seconds after full quote
+    setTimeout(() => {
+      element.textContent = "";   // clear instantly
+      charIndex = 0;
 
-    if (quoteIndex === 0) {
-      // Pause before typing again
-      quoteDeleting = false;
-    }
+      // Move to next quote
+      qIndex = (qIndex + 1) % quotes.length;
+
+      // Start next quote
+      setTimeout(typeQuote, 300);
+    }, 3000);
   }
-
-  setTimeout(typeQuote, quoteDeleting ? 40 : 60);
 }
 
 
