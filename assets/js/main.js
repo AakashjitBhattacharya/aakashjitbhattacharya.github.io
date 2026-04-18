@@ -149,47 +149,25 @@ function typeEffect() {
    HERO QUOTE TYPING
 ========================= */
 
-const quoteText = [
-   "I build distributed systems that cannot afford to miss deadlines.",
-  "I work where time matters, and delays are not an option.",
-  "At the edge of networks, every moment carries weight.",
-  "I design systems that respond when it matters most.",
-  "Between data and decision, there is only time.",
-  "Not all systems can wait — some must act.",
-  "I build for moments where timing defines outcome.",
-  "Where computation meets urgency, I find purpose.",
-  "In distributed systems, even a second can change everything."
-];
+const quoteText = "I build distributed systems that cannot afford to miss deadlines.";
 
-let qIndex = 0;     // which quote
-let charIndex = 0;  // which character
+let quoteIndex = 0;
 
 function typeQuote() {
 
   const element = document.getElementById("typing-quote");
   if (!element) return;
 
-  const current = quotes[qIndex];
+  element.textContent =
+    quoteText.substring(0, quoteIndex + 1);
 
-  // Typing
-  element.textContent = current.substring(0, charIndex + 1);
-  charIndex++;
+  quoteIndex++;
 
-  if (charIndex < current.length) {
-    setTimeout(typeQuote, 60);
-  } else {
-    // Wait 3 seconds
-    setTimeout(() => {
-      element.textContent = "";
-      charIndex = 0;
-
-      // Next quote
-      qIndex = (qIndex + 1) % quotes.length;
-
-      setTimeout(typeQuote, 300);
-    }, 3000);
+  if (quoteIndex < quoteText.length) {
+    setTimeout(typeQuote, 40);
   }
 }
+
 
 /* =========================
    PROTECTED CONTACT FORM
