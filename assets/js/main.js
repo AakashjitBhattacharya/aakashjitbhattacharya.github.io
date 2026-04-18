@@ -149,17 +149,31 @@ function typeEffect() {
    HERO QUOTE TYPING
 ========================= */
 
-const quoteText = "I build distributed systems that cannot afford to miss deadlines.";
+const quoteText = [
+   "I build distributed systems that cannot afford to miss deadlines.",
+  "I work where time matters, and delays are not an option.",
+  "At the edge of networks, every moment carries weight.",
+  "I design systems that respond when it matters most.",
+  "Between data and decision, there is only time.",
+  "Not all systems can wait — some must act.",
+  "I build for moments where timing defines outcome.",
+  "Where computation meets urgency, I find purpose.",
+  "In distributed systems, even a second can change everything."
+];
+let quoteIndex = 0;
 function typeQuote()
 {
    const element = document.getElementById("typing-quote");
    if (!element) return;
-   element.textContent = quoteText.substring(0, quoteIndex + 1);
-   quoteIndex++;
-   if (quoteIndex < quoteText.length)
+   for(int i=0;i<quoteText.length;i++)
    {
-      setTimeout(typeQuote, 40);
-   }
+      element.textContent = quoteText[i].substring(0, quoteIndex + 1);
+      quoteIndex++;
+      if (quoteIndex < quoteText[i].length)
+      {
+         setTimeout(typeQuote, 40);
+      }
+   }   
 }
 
 /* =========================
