@@ -177,20 +177,18 @@ function typeQuote() {
   if (charIndex < current.length) {
     setTimeout(typeQuote, 60);
   } else {
-    // Pause for 3 seconds after full quote
+    // Wait 3 seconds after full quote
     setTimeout(() => {
       element.textContent = "";   // clear instantly
       charIndex = 0;
 
-      // Move to next quote
+      // Next quote
       qIndex = (qIndex + 1) % quotes.length;
 
-      // Start next quote
       setTimeout(typeQuote, 300);
     }, 3000);
   }
 }
-
 
 /* =========================
    PROTECTED CONTACT FORM
