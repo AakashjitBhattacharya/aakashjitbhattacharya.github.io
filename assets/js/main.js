@@ -160,20 +160,35 @@ const quoteText = [
   "Where computation meets urgency, I find purpose.",
   "In distributed systems, even a second can change everything."
 ];
-let quoteIndex = 0;
-function typeQuote()
-{
-   const element = document.getElementById("typing-quote");
-   if (!element) return;
-   for(int i=0;i<quoteText.length;i++)
-   {
-      element.textContent = quoteText[i].substring(0, quoteIndex + 1);
-      quoteIndex++;
-      if (quoteIndex < quoteText[i].length)
-      {
-         setTimeout(typeQuote, 40);
-      }
-   }   
+
+let qIndex = 0;     // which quote
+let charIndex = 0;  // which character
+
+function typeQuote() {
+
+  const element = document.getElementById("typing-quote");
+  if (!element) return;
+
+  const current = quotes[qIndex];
+
+  // Typing
+  element.textContent = current.substring(0, charIndex + 1);
+  charIndex++;
+
+  if (charIndex < current.length) {
+    setTimeout(typeQuote, 60);
+  } else {
+    // Wait 3 seconds
+    setTimeout(() => {
+      element.textContent = "";
+      charIndex = 0;
+
+      // Next quote
+      qIndex = (qIndex + 1) % quotes.length;
+
+      setTimeout(typeQuote, 300);
+    }, 3000);
+  }
 }
 
 /* =========================
