@@ -152,20 +152,35 @@ function typeEffect() {
 const quoteText = "I build distributed systems that cannot afford to miss deadlines.";
 
 let quoteIndex = 0;
+let quoteDeleting = false;
 
 function typeQuote() {
 
   const element = document.getElementById("typing-quote");
   if (!element) return;
 
-  element.textContent =
-    quoteText.substring(0, quoteIndex + 1);
+  if (!quoteDeleting) {
+    // Typing
+    element.textContent = quoteText.substring(0, quoteIndex + 1);
+    quoteIndex++;
 
-  quoteIndex++;
+    if (quoteIndex === quoteText.length) {
+      // Pause before deleting
+      setTimeout(() => quoteDeleting = true, 2000);
+    }
 
-  if (quoteIndex < quoteText.length) {
-    setTimeout(typeQuote, 40);
+  } else {
+    // Deleting
+    element.textContent = quoteText.substring(0, quoteIndex - 1);
+    quoteIndex--;
+
+    if (quoteIndex === 0) {
+      // Pause before typing again
+      quoteDeleting = false;
+    }
   }
+
+  setTimeout(typeQuote, quoteDeleting ? 40 : 60);
 }
 
 
