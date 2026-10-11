@@ -21,22 +21,27 @@ body {
   overflow-x: hidden;
 }
 /* Area of Interests Container */
-/* --- Base Grid (Desktops, Chromebooks, Mac) --- */
+/* --- Base Layout (Infinite Auto-Balancing) --- */
 .interests-grid {
-  display: grid;
-  /* Auto-fit calculates how many columns can fit automatically based on screen width */
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Always centers the "leftover" cards on the bottom row */
+  gap: 20px;
   margin: 40px auto;
-  max-width: 1000px;
+  max-width: 1050px; 
   padding: 0 20px;
-  align-items: start;
+  align-items: flex-start; 
 }
 
 /* Base Card Style */
 .interest-card {
   display: flex;
   flex-direction: column;
+  
+  /* THE INFINITE SCALE MAGIC */
+  flex: 1 1 280px;  /* Starts at 280px, grows to fill space, shrinks if screen is small */
+  max-width: 320px; /* Hard cap. Prevents cards from ever looking awkwardly stretched */
+  
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
@@ -44,22 +49,22 @@ body {
   text-align: center;
   cursor: pointer;
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px); /* For Safari/Mac compatibility */
+  -webkit-backdrop-filter: blur(10px);
   transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Hover State (Desktop) or Active Touch State (Mobile) */
+/* Hover / Active State */
 .interest-card:hover, 
 .interest-card.active-card {
   background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(100, 181, 246, 0.5); /* Tech Blue border */
+  border-color: rgba(100, 181, 246, 0.5); /* Tech Blue */
   transform: translateY(-5px);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
 }
 
-/* Icon & Title Group */
+/* Icon & Title */
 .card-header {
   display: flex;
   flex-direction: column;
@@ -84,7 +89,7 @@ body {
   line-height: 1.3;
 }
 
-/* Morphing Description Area */
+/* Morphing Description */
 .card-body {
   width: 100%;
   max-height: 0;
@@ -93,17 +98,16 @@ body {
   text-align: left;
 }
 
-/* Expand the box smoothly */
 .interest-card:hover .card-body,
 .interest-card.active-card .card-body {
-  max-height: 200px; /* Gives it room to grow */
+  max-height: 250px;
   opacity: 1;
   margin-top: 15px;
   padding-top: 15px;
   border-top: 1px dashed rgba(255, 255, 255, 0.2);
 }
 
-/* Typography for the typing effect */
+/* Typography & Typing Effect */
 .typing-text {
   font-size: 0.85rem;
   line-height: 1.5;
@@ -111,7 +115,7 @@ body {
 }
 
 .typing-cursor::after {
-  content: '█'; /* Cyberpunk block cursor */
+  content: '█'; 
   color: #64b5f6;
   animation: blink 0.8s step-start infinite;
   margin-left: 4px;
@@ -119,39 +123,25 @@ body {
 
 @keyframes blink { 50% { opacity: 0; } }
 
-/* --- Tablet Responsiveness --- */
-@media (max-width: 768px) {
-  .interests-grid {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 12px;
-    padding: 0 15px;
-  }
-  .interest-card {
-    padding: 16px 12px;
-  }
-  .card-title {
-    font-size: 0.9rem;
-  }
-}
-
 /* --- Mobile Responsiveness (Smartphones) --- */
-@media (max-width: 480px) {
+/* We only need one media query now because flex: 280px handles tablets automatically! */
+@media (max-width: 600px) {
   .interests-grid {
-    grid-template-columns: 1fr; /* Forces 1 single column */
     padding: 0 10px;
   }
   .interest-card {
-    /* Changes layout to horizontal on tiny screens to save vertical space */
+    flex: 1 1 100%; /* Forces a single stacked column */
+    max-width: 100%; 
     text-align: left;
     padding: 16px;
   }
   .card-header {
-    flex-direction: row; /* Icon on left, text on right */
+    flex-direction: row; /* Horizontal layout for tiny screens */
     justify-content: flex-start;
   }
   .interest-card:hover, 
   .interest-card.active-card {
-    transform: translateY(-2px); /* Less aggressive jump on mobile */
+    transform: translateY(-2px);
   }
 }
 /* Area of Interests Container */
