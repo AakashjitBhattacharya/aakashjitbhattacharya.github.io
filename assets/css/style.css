@@ -20,6 +20,38 @@ body {
   color: #f1f5f9;
   overflow-x: hidden;
 }
+/* Area of Interests Container */
+.interests-container {
+  display: flex;
+  flex-wrap: wrap;       /* Allows boxes to drop to the next line on mobile */
+  justify-content: center; /* Centers the boxes horizontally */
+  gap: 12px;             /* Space between the boxes */
+  margin: 25px auto;     /* Pushes it away from the content above and the social links below */
+  max-width: 800px;      /* Prevents it from stretching too wide on large screens */
+  padding: 0 15px;
+}
+
+/* Individual Interest Box Styling */
+.interest-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 16px;
+  border-radius: 30px;    /* Pill-shaped boxes */
+  font-size: 0.9rem;
+  color: #fff;            /* Adjust to match your theme's text color */
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px); /* Adds a modern frosted glass effect */
+}
+
+/* Hover Effect for Interactivity */
+.interest-box:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
 
 /* Layout */
 main {
