@@ -205,6 +205,42 @@
 </section>
 
 <div id="footer"></div>
+<script>
+  document.querySelectorAll('.interest-box').forEach(box => {
+    let typingInterval;
+    
+    // When mouse enters the box
+    box.addEventListener('mouseenter', () => {
+      const tooltip = box.querySelector('.interest-tooltip');
+      const fullText = box.getAttribute('data-desc');
+      
+      // Set up spans for text and cursor
+      tooltip.innerHTML = '<span class="typing-text"></span><span class="typing-cursor"></span>';
+      const textSpan = tooltip.querySelector('.typing-text');
+      
+      clearInterval(typingInterval);
+      let i = 0;
+      
+      // Start typing loop
+      typingInterval = setInterval(() => {
+        if (i < fullText.length) {
+          textSpan.textContent += fullText.charAt(i);
+          i++;
+        } else {
+          clearInterval(typingInterval); // Stop when text is fully typed
+        }
+      }, 25); // 25ms per character. Lower number = faster typing.
+    });
+
+    // When mouse leaves the box
+    box.addEventListener('mouseleave', () => {
+      clearInterval(typingInterval);
+      const tooltip = box.querySelector('.interest-tooltip');
+      // Clear the tooltip so it re-types next time you hover over it
+      tooltip.innerHTML = ''; 
+    });
+  });
+</script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>
