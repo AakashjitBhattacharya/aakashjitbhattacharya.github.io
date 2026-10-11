@@ -21,37 +21,71 @@ body {
   overflow-x: hidden;
 }
 /* Area of Interests Container */
+/* Container */
 .interests-container {
   display: flex;
-  flex-wrap: wrap;       /* Allows boxes to drop to the next line on mobile */
-  justify-content: center; /* Centers the boxes horizontally */
-  gap: 12px;             /* Space between the boxes */
-  margin: 25px auto;     /* Pushes it away from the content above and the social links below */
-  max-width: 800px;      /* Prevents it from stretching too wide on large screens */
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin: 30px auto;
+  max-width: 900px;
   padding: 0 15px;
 }
 
-/* Individual Interest Box Styling */
+/* Card Layout with hidden overflow for the animation */
 .interest-box {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 8px 16px;
-  border-radius: 30px;    /* Pill-shaped boxes */
-  font-size: 0.9rem;
-  color: #fff;            /* Adjust to match your theme's text color */
+  flex-direction: column;
+  align-items: flex-start;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 16px 20px;
+  border-radius: 12px;
+  backdrop-filter: blur(5px);
   transition: all 0.3s ease;
-  backdrop-filter: blur(4px); /* Adds a modern frosted glass effect */
+  width: 100%;
+  max-width: 280px;
+  text-align: left;
+  cursor: default; /* Indicates interactivity */
 }
 
-/* Hover Effect for Interactivity */
 .interest-box:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.4);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 }
+
+.interest-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #fff;
+}
+
+/* Hidden Description State */
+.interest-desc {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  
+  /* These 3 lines hide the text by default */
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  
+  transition: all 0.3s ease; /* Controls the speed of the reveal */
+}
+
+/* Revealed Description State on Hover */
+.interest-box:hover .interest-desc {
+  max-height: 120px; /* Allows enough room for the paragraph to grow */
+  opacity: 1;
+  margin-top: 12px;  /* Adds a gap between the header and the text */
+}
+/* Area of Interests Container */
 
 /* Layout */
 main {
